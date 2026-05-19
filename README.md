@@ -359,19 +359,6 @@ This is the **core population analysis pipeline**. It operates directly on the e
 
 ---
 
-## 12. Limitations
-
-This work has the following limitations, which should be considered when interpreting the results:
-
-- **Coarse 4-lobe atlas**: The current atlas resolution aggregates tumour involvement over entire lobes. Substantial spatial variation within each lobe (e.g., sub-lobar regions, gyral patterns) is not captured.
-- **No voxelwise localisation**: The analysis operates at the lobe level only; voxel-level lesion-symptom mapping or voxel-based lesion-symptom analysis is not performed.
-- **No intra-lobe spatial modelling**: Tumour burden distribution within a lobe (focal vs diffuse, depth from cortex) is not characterised.
-- **Modality similarity at coarse resolution**: The high cross-modality correlation of effect sizes suggests that the four MRI sequences provide largely redundant spatial information at the lobe scale. Finer-grained analysis may be required to identify modality-specific prognostic patterns.
-- **No texture or radiomic heterogeneity modelling**: Only occupancy ratios are used; texture, shape, intensity histogram, and higher-order radiomic features are excluded.
-- **No molecular or clinical covariates**: The analysis is purely spatial; molecular subtype, MGMT promoter methylation, IDH status, age, and extent of resection are not incorporated.
-
----
-
 ## 13. Future Work
 
 Several extensions are planned to address the limitations above and to deepen the spatial analysis:
@@ -393,10 +380,10 @@ If you use this work, please cite the associated publication (reference forthcom
 @misc{lobewise2026,
   title        = {Lobewise Subregion Modelling for Population-Level Probabilistic Risk
                   Atlas Generation in Glioblastoma Using Multimodal MRI},
-  author       = {Author(s)},
+  author       = {Krishna Rathore, Anuj Saha},
   year         = {2026},
   howpublished = {GitHub repository},
-  note         = {Available: https://github.com/[repository-url]}
+  note         = {Available: https://github.com/AnujSaha0111/GBM-Lobewise-Subregion-Modelling}
 }
 ```
 
