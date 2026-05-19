@@ -1,0 +1,45 @@
+{
+  "data": {
+    "ucsf_root": "UCSF",
+    "structural_subdir": "DATA-IMAGE-STRUCTURAL",
+    "segmentation_subdir": "DATA-AUTOMATED-SEGMENT",
+    "t1_suffix": "_T1.nii.gz",
+    "t2_suffix": "_T2.nii.gz",
+    "t1gd_suffix": "_T1GD.nii.gz",
+    "flair_suffix": "_FLAIR.nii.gz",
+    "seg_suffix": "_tumor_segmentation.nii.gz",
+    "clinical_csv": "data/raw/UCSF-PDGM-metadata_v5.csv",
+    "sri24_dir": "data/SRI24",
+    "sri24_t1_filename": "spgr.nii.gz"
+  },
+  "atlas": {
+    "lobe_dilation_voxels": 3,
+    "cache_atlas": true,
+    "registration_type": "Affine",
+    "transforms_cache_dir": "outputs/transforms",
+    "use_ants_registration": false 
+  },
+  "preprocessing": {
+    "os_high_risk_threshold_months": 12,
+    "os_days_per_month": 30.4375,
+    "min_lobe_mapping_fraction": 0.90
+  },
+  "training": {
+    "input_csv": "outputs/features_processed.csv",
+    "output_dir": "outputs",
+    "test_size": 0.15,
+    "validation_fraction_of_trainval": 0.176470588,
+    "optuna_trials": 50,
+    "optuna_cv_folds": 5,
+    "final_cv_folds": 10,
+    "xgboost_early_stopping_rounds": 25,
+    "cv_folds": 10,
+    "random_seed": 42,
+    "tree_selector_threshold": "mean",
+    "xgb_n_estimators": 200,
+    "xgb_max_depth": 4,
+    "xgb_learning_rate": 0.05,
+    "xgb_subsample": 0.8,
+    "xgb_colsample_bytree": 0.8
+  }
+}

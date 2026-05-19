@@ -1,0 +1,9 @@
+global_nc_en_ratio
+global_ed_en_ratio
+global_ed_total_ratio
+tumor_burden_index
+frontal_ed_ratio
+frontal_en_ratio
+frontal_nc_ratio
+temporal_ed_ratio
+parietal_ed_ratio

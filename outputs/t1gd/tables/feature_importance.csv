@@ -1,0 +1,17 @@
+feature,importance
+occipital_nc_ratio,0.04280323
+parietal_en_ratio,0.043802053
+occipital_en_ratio,0.04857228
+parietal_nc_ratio,0.04947385
+frontal_ed_ratio,0.051292818
+occipital_ed_ratio,0.05304996
+tumor_burden_index,0.055076618
+parietal_ed_ratio,0.05588928
+temporal_nc_ratio,0.05595426
+temporal_ed_ratio,0.0572472
+global_ed_total_ratio,0.06479934
+temporal_en_ratio,0.06865956
+global_ed_en_ratio,0.070183456
+global_nc_en_ratio,0.0706307
+frontal_nc_ratio,0.08526611
+frontal_en_ratio,0.12729923

@@ -1,0 +1,5 @@
+{
+  "selected_device": "cuda",
+  "gpu_available": true,
+  "reason": "GPU training available"
+}

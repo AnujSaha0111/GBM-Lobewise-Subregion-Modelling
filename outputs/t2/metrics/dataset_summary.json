@@ -1,0 +1,9 @@
+{
+  "rows_after_label_drop": 493,
+  "n_features": 16,
+  "class_distribution": {
+    "0": 276,
+    "1": 217
+  },
+  "total_feature_nulls": 0
+}

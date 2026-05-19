@@ -1,0 +1,93 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+.venv
+.venv-linux
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Data and models
+*.nii
+*.nii.gz
+*.nifti
+data/raw/
+old-atlasregistration-files/
+training/models/
+training/cache/
+outputs/old
+UCSF/
+.codex
+
+# Large CSV files (keep source, ignore generated)
+*_temp.csv
+*_backup.csv
+*_cache.csv
+
+# OS
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Misc
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.env
+.env.local
+*.log
+node_modules/
+.txt
+
+# extra md files
+implementation_plan.md
+New Project implimentaion Prompt.md
+report.md
+
+# Allow tracking pipeline outputs
+!outputs/
+!outputs/**
+!outputs/**/*.txt
+!outputs/**/*.nii
+!outputs/**/*.nii.gz
+!outputs/**/*.nifti
+
+old-atlasregistration-files/
