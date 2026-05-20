@@ -1,0 +1,23 @@
+{
+  "within_modality": {
+    "label": "within_modality",
+    "count": 480,
+    "mean": 0.2530964564520496,
+    "std": 0.18735019071896786,
+    "max": 0.8505485503552188
+  },
+  "cross_modality": {
+    "label": "cross_modality",
+    "count": 1536,
+    "mean": 0.29962260077902475,
+    "std": 0.25570390952796973,
+    "max": 1.0
+  },
+  "same_subregion_cross_modality": {
+    "label": "same_subregion_cross_modality",
+    "count": 312,
+    "mean": 0.462333563044689,
+    "std": 0.3798928020101395,
+    "max": 1.0
+  }
+}
