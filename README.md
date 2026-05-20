@@ -2,7 +2,7 @@
 
 ## 1. Overview
 
-This pipeline constructs and interprets a **multimodal lobewise-subregion survival risk classifier** from pre-extracted spatial feature sets across four MRI sequences: T1-weighted, T2-weighted, contrast-enhanced T1 (T1GD), and FLAIR. The objective is to identify which anatomical lobe–subregion combinations across modalities most strongly associate with short-term (≤12 months) versus longer-term survival in glioblastoma patients, using interpretable machine learning and robust statistical testing.
+This pipeline constructs and interprets **multimodal lobewise-subregion survival risk classifiers** from pre-extracted spatial feature sets across four MRI sequences: T1-weighted, T2-weighted, contrast-enhanced T1 (T1GD), and FLAIR. The project implements two modelling approaches — an **XGBoost baseline** and a **leakage-corrected SVM (RBF kernel) pipeline** — to identify which anatomical lobe–subregion combinations across modalities most strongly associate with short-term (≤12 months) versus longer-term survival in glioblastoma patients. The SVM pipeline achieved the best final performance (ROC-AUC = 0.632 vs 0.562 for XGBoost) while maintaining interpretability through model-agnostic permutation importance analysis. The focus remains on interpretable multimodal lobewise survival analysis rather than purely maximizing predictive accuracy.
 
 ## 2. Problem Statement
 
@@ -12,6 +12,7 @@ Approximately 500 UCSF-PDGM patients have tumour segmentations co-registered to 
 - Which lobe–subregion combinations across the four MRI modalities carry the strongest survival risk signal?
 - Does multimodal fusion add independent spatial information, or do different sequences capture essentially the same anatomical patterns?
 - Can a standard gradient-boosted model (XGBoost) stratify survival risk using only these coarse lobewise features?
+- Does a leakage-corrected SVM with RBF kernel outperform XGBoost on this feature space, and what spatial patterns does it rely on?
 
 ## 3. Dataset Description
 
@@ -57,6 +58,11 @@ flowchart TD
     J --> N["shap_summary.png, shap_bar.png, top20_features.png, feature_importance.csv"]
     K --> O["volcano_plot.png, top_feature_boxplots.png, feature_statistics.csv"]
     L --> P["correlation_heatmap.png, modality_block_heatmap.png, high_correlation_pairs.csv"]
+
+    F --> Q[train_svm_model]
+    Q --> R["svm_model.pkl, metrics.json, predictions.csv, best_params.json, cv_results.csv"]
+    R --> S[analyze_svm_results]
+    S --> T["permutation_importance.csv, top20_permutation_features.png, modality_importance.csv, lobe_importance.csv, subregion_importance.csv"]
 ```
 
 ## 5. Folder Structure
@@ -67,7 +73,9 @@ src/multimodal_lobewise/
 ├── build_multimodal_dataset.py    # Merge 4 modality CSVs into a single multimodal table
 ├── preprocess_multimodal.py       # Median imputation + StandardScaler, save artifacts
 ├── train_multimodal_model.py      # Train XGBoost with early stopping, evaluate, save model
+├── train_svm_model.py             # Train leakage-corrected SVM (RBF) with GridSearchCV, evaluate, save model
 ├── analyze_feature_importance.py  # SHAP + XGBoost importance, grouped by modality/lobe/subregion
+├── analyze_svm_results.py         # Permutation importance analysis for SVM, grouped summaries
 ├── statistical_analysis.py        # Mann-Whitney U, FDR correction, Cohen's d, volcano plot
 └── correlation_analysis.py        # Pearson/Spearman matrices, redundancy quantification
 
@@ -95,6 +103,20 @@ outputs/multimodal_lobewise/
 ├── modality_importance.csv
 ├── lobe_importance.csv
 └── subregion_importance.csv
+
+outputs/multimodal_lobewise_svm/
+├── svm_model.pkl
+├── metrics.json
+├── predictions.csv
+├── best_params.json
+├── cv_results.csv
+├── permutation_importance.csv
+├── top20_permutation_features.png
+├── roc_curve.png
+├── confusion_matrix.png
+├── modality_importance.csv
+├── lobe_importance.csv
+└── subregion_importance.csv
 ```
 
 ## 6. Methodology
@@ -107,21 +129,40 @@ Each modality CSV contains 18 columns: `patient_id`, 16 spatial features (4 glob
 
 The processor module (`preprocess_multimodal.py`) separates metadata (`patient_id`, `risk_label`) from the 64 feature columns, verifies no metadata leakage and all-numeric types, applies **median imputation** via `sklearn.impute.SimpleImputer`, then **standard scaling** (`sklearn.preprocessing.StandardScaler`). Both fitted transformers are serialised as `imputer.pkl` and `scaler.pkl` for later reuse. Strong assertions enforce no remaining NaNs and exact column preservation.
 
-### 6.3 Model Training
+### 6.3 XGBoost Baseline Training
 
 An **XGBoost classifier** is trained on a stratified 80/20 train-test split (`random_state=42`). Hyperparameters are set conservatively (`n_estimators=300`, `max_depth=4`, `learning_rate=0.03`, `subsample=0.8`, `colsample_bytree=0.8`) with `scale_pos_weight` computed from the training class distribution to handle imbalance. Early stopping on the test set is used as a proxy validation. Five metrics are reported: accuracy, precision, recall, F1-score, and ROC-AUC, along with the confusion matrix and full classification report.
 
-### 6.4 SHAP Analysis
+### 6.4 SVM Survival Risk Classifier
+
+An **SVM with RBF kernel** (`sklearn.svm.SVC`) is trained on the same stratified 80/20 split. Hyperparameters are tuned via **GridSearchCV** with 5-fold stratified cross-validation:
+
+| Parameter | Grid Values |
+|---|---|
+| C | [0.01, 0.1, 1, 10, 100] |
+| gamma | ["scale", 0.001, 0.01, 0.1, 1] |
+
+Additional settings: `class_weight="balanced"`, `probability=True`, scoring on `roc_auc`. The best configuration (C=100, gamma=0.001) is retained for final evaluation. Permutation importance (model-agnostic, 30 repeats) identifies the most influential features post-training.
+
+### 6.5 Leakage-Free Training Pipeline
+
+**Initial issue:** The preprocessing step (`preprocess_multimodal.py`) previously applied `StandardScaler.fit_transform` on the full dataset before the train-test split. This caused mild preprocessing leakage because the scaler's mean and standard deviation were computed on the entire population (including test samples), allowing test-set distributional information to influence training features.
+
+**Correction:** The SVM pipeline loads raw (unscaled) features directly from `merged_features.csv` and wraps the scaler inside a `sklearn.pipeline.Pipeline([("scaler", StandardScaler()), ("svm", SVC(...))])`. Because the scaler is part of the `Pipeline`, it is fit **only on the training fold** during cross-validation and **only on the training split** for the final model. `GridSearchCV` cross-validates the entire pipeline, ensuring that scaling parameters are recomputed from scratch within each CV fold using only fold-local training statistics. The leakage was real but mild — correcting it changed ROC-AUC by less than 0.01 — confirming that feature limitations, not preprocessing leakage, were the primary performance bottleneck.
+
+Note: The original XGBoost pipeline continues to use `processed_features.csv` (pre-scaled on the full dataset) as a baseline. The gap between XGBoost and SVM cannot be attributed to this difference.
+
+### 6.6 SHAP Analysis
 
 SHAP (SHapley Additive ExPlanations) via `TreeExplainer` decomposes each prediction into additive feature contributions. **Positive SHAP** values push the prediction towards high-risk; **negative SHAP** values push towards low-risk. Feature contributions are aggregated by **modality**, **lobe**, and **subregion** to identify the anatomical axes with the strongest survival signal. SHAP and XGBoost gain importance are compared side by side.
 
-### 6.5 Statistical Analysis
+### 6.7 Statistical Analysis
 
 For each of the 64 features, a **two-sided Mann-Whitney U test** compares the distributions of the high-risk and low-risk groups. Effect sizes are reported as **Cohen's d** (positive = higher in high-risk). **Benjamini-Hochberg FDR correction** controls for multiple testing across the 64 hypotheses. A volcano plot visualises effect size against significance, and boxplots of the top significant features are generated.
 
-While SHAP importance reflects *model-based* contribution magnitude, statistical testing reflects *univariate group separation* — a feature can be statistically significant (group means differ) without being important to the model (if its signal is redundant with other features), and vice versa.
+While permutation importance reflects *model-based* contribution magnitude, statistical testing reflects *univariate group separation* — a feature can be statistically significant (group means differ) without being important to the model (if its signal is redundant with other features), and vice versa.
 
-### 6.6 Correlation Analysis
+### 6.8 Correlation Analysis
 
 Pearson and Spearman correlation matrices (64 × 64) are computed across all features. Highly-correlated pairs (|r| > 0.80, |r| > 0.90) are extracted, annotated with whether they share modality, lobe, or subregion, and aggregated into within-modality, cross-modality, and same-subregion cross-modality redundancy summaries. A clustered heatmap and a modality-block heatmap visualise the correlation structure.
 
@@ -129,23 +170,29 @@ Pearson and Spearman correlation matrices (64 × 64) are computed across all fea
 
 ### 7.1 Model Performance
 
-| Metric | Value |
-|---|---|
-| Accuracy | 0.556 |
-| Precision | 0.500 |
-| Recall | 0.409 |
-| F1-score | 0.450 |
-| ROC-AUC | 0.562 |
+| Metric | XGBoost | Corrected SVM (RBF) | Δ |
+|---|---|---|---|
+| ROC-AUC | 0.562 | **0.632** | +0.070 |
+| Accuracy | 0.556 | **0.616** | +0.060 |
+| Precision | 0.500 | **0.575** | +0.075 |
+| Recall | 0.409 | **0.523** | +0.114 |
+| F1-score | 0.450 | **0.548** | +0.098 |
 
-The AUC of 0.562 indicates a modest but above-chance predictive signal. The low recall for the high-risk class (0.41) suggests that coarse lobewise features alone provide limited discriminative power for individual-level survival stratification, though group-level anatomical patterns are detectable (see §7.2).
+The corrected SVM (RBF kernel) consistently outperforms XGBoost across all metrics, with the largest gains in recall (+0.114) and ROC-AUC (+0.070). This suggests that the max-margin decision boundary with an RBF kernel is better suited to the multimodal lobewise feature space than tree-based boosting.
+
+The SVM AUC of 0.632 indicates a modest but above-chance predictive signal. The improvement over XGBoost is consistent, but performance remains moderate. Importantly, the corrected leakage-free pipeline reduced AUC by less than 0.01 compared to the leaked version, confirming that feature limitations — not preprocessing leakage — are the primary performance bottleneck.
+
+Both models show low recall for the high-risk class (XGBoost: 0.41, SVM: 0.52), suggesting that coarse lobewise features alone provide limited discriminative power for individual-level survival stratification, though group-level anatomical patterns are detectable (see §7.2).
 
 ### 7.2 Key Anatomical Findings
 
 | Finding | Evidence |
 |---|---|
-| **Frontal enhancing burden** is the strongest spatial correlate of high-risk across all modalities | `frontal_en_ratio` is top-ranked by both SHAP and statistical significance across T1, T2, T1GD, and FLAIR (Cohen's d ≈ +0.40, FDR p ≈ 1.4 × 10⁻⁷) |
-| **Temporal lobe patterns** show the second-strongest association with risk | `temporal_en_ratio` and `temporal_ed_ratio` appear among top-10 features by both SHAP and statistical tests |
-| **T1 and T2 modalities dominate the predictive signal** | Mean |SHAP|: T1 (0.109) > T2 (0.070) > T1GD (0.025) > FLAIR (0.006) |
+| **Temporal enhancing burden** is the strongest spatial correlate in the SVM model | `T1GD_temporal_en_ratio` is the top feature by permutation importance (mean AUC drop = 0.022), followed by `T1_temporal_nc_ratio` (0.013) |
+| **Frontal enhancing burden** remains a strong cross-modal risk correlate | `frontal_en_ratio` is top-ranked by both SHAP (XGBoost) and statistical significance across all modalities (Cohen's d ≈ +0.40, FDR p ≈ 1.4 × 10⁻⁷) |
+| **T1-weighted sequences dominate the predictive signal** | Mean permutation importance: T1 (0.005) > T1GD (0.004) > FLAIR ≈ T2 (0.003) |
+| **Temporal lobe** shows the strongest regional importance | Mean permutation importance: temporal (0.008) > frontal (0.004) > parietal (0.004) > occipital (0.003) > global (0.001) |
+| **Enhancing tumour subregion** carries the most predictive weight | Mean permutation importance: en (0.007) > ed (0.004) > nc (0.003) |
 | **Global oedema/total ratio** is negatively associated with high-risk | `global_ed_total_ratio` shows a consistent negative Cohen's d across all four modalities (d ≈ −0.33), suggesting that a higher proportion of oedema relative to total tumour volume is associated with longer survival |
 | **Non-enhancing core (nc)** features show weaker but significant group differences | `frontal_nc_ratio` is significant across all modalities (d ≈ +0.18, FDR p ≈ 3.6 × 10⁻⁵) |
 
@@ -162,22 +209,27 @@ These results indicate that multimodal fusion in this lobewise framework capture
 
 ## 8. Important Visual Outputs
 
-| File | What It Shows |
-|---|---|
-| `shap_summary.png` | Beeswarm plot of SHAP values across all 64 features. Features are ranked by mean |SHAP|; each dot is one patient, coloured by feature value (red = high, blue = low). Positive SHAP → high-risk. |
-| `volcano_plot.png` | Cohen's d (effect size) versus −log₁₀(FDR-corrected p-value). Features in the upper-right are significantly elevated in high-risk; upper-left are significantly elevated in low-risk. |
-| `correlation_heatmap.png` | Clustered Pearson correlation matrix with dendrograms. Tight clusters reveal feature groups that move together across patients. |
-| `modality_block_heatmap.png` | Correlation matrix with features ordered by modality (T1, T2, T1GD, FLAIR). Diagonal blocks: within-modality correlations. Off-diagonal: cross-modality. Black lines separate modalities. |
-| `confusion_matrix.png` | Heatmap of true vs predicted labels on the held-out test set. |
-| `roc_curve.png` | Receiver operating characteristic curve with AUC annotation. |
+| Directory | File | What It Shows |
+|---|---|---|
+| `outputs/multimodal_lobewise/` | `shap_summary.png` | Beeswarm plot of SHAP values across all 64 features (XGBoost). Each dot is one patient, coloured by feature value (red = high, blue = low). Positive SHAP → high-risk. |
+| `outputs/multimodal_lobewise/` | `volcano_plot.png` | Cohen's d (effect size) versus −log₁₀(FDR-corrected p-value). Features in the upper-right are significantly elevated in high-risk; upper-left are significantly elevated in low-risk. |
+| `outputs/multimodal_lobewise/` | `correlation_heatmap.png` | Clustered Pearson correlation matrix with dendrograms. |
+| `outputs/multimodal_lobewise/` | `modality_block_heatmap.png` | Correlation matrix with features ordered by modality. |
+| `outputs/multimodal_lobewise/` | `confusion_matrix.png` | Confusion matrix for XGBoost test-set predictions. |
+| `outputs/multimodal_lobewise/` | `roc_curve.png` | ROC curve with AUC for XGBoost. |
+| `outputs/multimodal_lobewise_svm/` | `roc_curve.png` | ROC curve with AUC for corrected SVM (RBF). |
+| `outputs/multimodal_lobewise_svm/` | `confusion_matrix.png` | Confusion matrix for SVM test-set predictions. |
+| `outputs/multimodal_lobewise_svm/` | `top20_permutation_features.png` | Top-20 features ranked by permutation importance (mean AUC drop over 30 repeats). |
 
 ## 9. Key Scientific Conclusions
 
-1. **Anatomically meaningful survival associations exist** in coarse lobewise spatial features. Frontal enhancing tumour burden is consistently the strongest risk correlate across all four MRI modalities.
-2. **T1-weighted imaging carries the most predictive signal** among the four sequences, followed by T2. Contrast-enhanced T1 and FLAIR contribute minimal independent information at this spatial scale.
-3. **Multimodal fusion adds limited independent information** because same-region measurements across sequences are highly correlated — the different modalities capture essentially the same spatial overlap patterns within each lobe.
-4. **Lobewise aggregation is interpretable but anatomically coarse.** The signal is sufficient to detect group-level differences (25/64 features significant at FDR < 5%) but insufficient for accurate individual-level risk classification (ROC-AUC = 0.562).
-5. **Global oedema-total ratio shows a consistent protective association**, with lower ratios linked to high-risk, possibly reflecting a more aggressive, solid-tumour phenotype with less peritumoural oedema.
+1. **Anatomically meaningful survival associations exist** in coarse lobewise spatial features. The corrected leakage-free SVM pipeline demonstrated limited but anatomically meaningful predictive capability for survival-risk stratification using multimodal lobewise MRI features. Temporal and frontal enhancing tumour burden emerged as the strongest and most consistent spatial survival signatures across modalities.
+2. **SVM (RBF) consistently outperforms XGBoost** across all metrics (ROC-AUC: 0.632 vs 0.562, recall: 0.523 vs 0.409). The max-margin decision boundary with kernel trick is better suited to this feature space than tree-based boosting, though both models remain in the moderate performance range.
+3. **T1-weighted imaging carries the most predictive signal** among the four sequences (mean permutation importance: T1 = 0.005, T1GD = 0.004, FLAIR ≈ T2 = 0.003). The enhanced signal from T1GD contributes meaningfully to the SVM model, unlike in XGBoost where SHAP attributed minimal importance to contrast-enhanced sequences.
+4. **Temporal lobe features dominate SVM predictions**, followed by frontal, parietal, and occipital regions. Enhancing tumour (en) within the temporal lobe is the single most impactful feature pattern, suggesting that temporal-lobe enhancing burden carries the strongest survival-risk signal at this spatial resolution.
+5. **Multimodal fusion adds limited independent information** because same-region measurements across sequences are highly correlated — the different modalities capture essentially the same spatial overlap patterns within each lobe. Cross-modality redundancy remains high regardless of the classifier.
+6. **Lobewise aggregation is interpretable but anatomically coarse.** The signal is sufficient to detect group-level differences (25/64 features significant at FDR < 5%) but insufficient for accurate individual-level risk classification, even after leakage correction and SVM optimisation (ROC-AUC = 0.632).
+7. **Global oedema-total ratio shows a consistent protective association**, with lower ratios linked to high-risk, possibly reflecting a more aggressive, solid-tumour phenotype with less peritumoural oedema.
 
 ## 10. Limitations
 
@@ -186,7 +238,8 @@ These results indicate that multimodal fusion in this lobewise framework capture
 - **No clinical or genomic covariates.** Patient age, MGMT promoter methylation status, IDH mutation status, and extent of resection are known strong prognostic factors and are not incorporated.
 - **Survival is a complex endpoint.** Binarising at 12 months discards temporal information. A proportional-hazards or time-dependent modelling approach may be more appropriate.
 - **High feature redundancy.** The cross-modality same-subregion correlation is r ≈ 0.46 on average, with many pairs exceeding 0.90, reducing the effective dimensionality of the multimodal fusion.
-- **Moderate predictive performance.** The ROC-AUC of 0.562 on held-out data indicates limited clinical utility at the individual level.
+- **Moderate predictive performance.** The corrected SVM ROC-AUC of 0.632 on held-out data indicates limited clinical utility at the individual level. Even after leakage correction and SVM optimisation, predictive performance remains moderate, suggesting the current feature representation is the primary limitation.
+- **SVM interpretability.** Unlike tree-based models, RBF-kernel SVM does not provide native feature importance. Permutation importance is model-agnostic but computationally expensive and sensitive to correlated features, which are abundant in this dataset.
 
 ## 11. Future Work
 
@@ -197,6 +250,8 @@ These results indicate that multimodal fusion in this lobewise framework capture
 - **Finer subregional parcellation.** Replace the 4-lobe atlas with a multi-resolution parcellation (e.g., Desikan-Killiany, automated anatomical labelling) to increase spatial granularity.
 - **Survival modelling.** Replace binary classification with Cox proportional-hazards or random-survival-forest models to utilise full time-to-event information.
 - **Feature selection.** The high redundancy identified in §7.3 motivates feature selection or dimensionality reduction before modelling.
+- **Non-linear SVM variants.** Explore polynomial or sigmoid kernels and compare against RBF to assess sensitivity to kernel choice.
+- **Calibration analysis.** Assess whether SVM probability estimates are well-calibrated for survival risk prediction and apply Platt scaling or isotonic regression if needed.
 
 ## 12. Reproducibility
 
@@ -220,6 +275,12 @@ python src/multimodal_lobewise/statistical_analysis.py
 
 # Step 6: Correlation and redundancy analysis
 python src/multimodal_lobewise/correlation_analysis.py
+
+# Step 7: Train and evaluate the leakage-corrected SVM classifier
+python src/multimodal_lobewise/train_svm_model.py
+
+# Step 8: Analyse SVM feature importance with permutation importance
+python src/multimodal_lobewise/analyze_svm_results.py
 ```
 
 **Dependencies:** Python ≥ 3.10, numpy, pandas, scipy, scikit-learn, xgboost, shap, matplotlib, seaborn, statsmodels, joblib.
