@@ -1,0 +1,44 @@
+{
+  "accuracy": 0.6161616161616161,
+  "precision": 0.575,
+  "recall": 0.5227272727272727,
+  "f1_score": 0.5476190476190477,
+  "roc_auc": 0.6322314049586777,
+  "confusion_matrix": [
+    [
+      38,
+      17
+    ],
+    [
+      21,
+      23
+    ]
+  ],
+  "classification_report": {
+    "low-risk": {
+      "precision": 0.6440677966101694,
+      "recall": 0.6909090909090909,
+      "f1-score": 0.6666666666666666,
+      "support": 55.0
+    },
+    "high-risk": {
+      "precision": 0.575,
+      "recall": 0.5227272727272727,
+      "f1-score": 0.5476190476190477,
+      "support": 44.0
+    },
+    "accuracy": 0.6161616161616161,
+    "macro avg": {
+      "precision": 0.6095338983050846,
+      "recall": 0.6068181818181818,
+      "f1-score": 0.6071428571428572,
+      "support": 99.0
+    },
+    "weighted avg": {
+      "precision": 0.6133709981167608,
+      "recall": 0.6161616161616161,
+      "f1-score": 0.6137566137566137,
+      "support": 99.0
+    }
+  }
+}
