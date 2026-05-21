@@ -1,0 +1,11 @@
+{
+  "observed_auc": 0.6322314049586777,
+  "bootstrap_mean_auc": 0.6334353392353463,
+  "ci_lower": 0.5227230777835782,
+  "ci_upper": 0.7432124596555139,
+  "permutation_p_value": 0.008598280343931213,
+  "n_bootstraps": 5000,
+  "n_permutations": 5000,
+  "n_test_samples": 99,
+  "alpha": 0.05
+}
