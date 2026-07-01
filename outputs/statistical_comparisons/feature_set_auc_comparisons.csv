@@ -1,0 +1,4 @@
+group,comparison,auc_a,auc_b,delta_auc,ci_lower,ci_upper,p_value,p_value_adjusted,significant
+Feature Set,Spatial Only vs Clinical + Molecular,0.6322,0.7721,0.1389,0.0288,0.2539,0.0168,0.0504,No
+Feature Set,Spatial Only vs Combined,0.6322,0.7029,0.0699,0.0044,0.1348,0.0366,0.0549,No
+Feature Set,Clinical + Molecular vs Combined,0.7721,0.7029,-0.069,-0.1672,0.027,0.1612,0.1612,No

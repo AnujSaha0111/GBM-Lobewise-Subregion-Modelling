@@ -1,10 +1,4 @@
 #!/usr/bin/env python3
-"""Build a multimodal lobewise-subregion dataset by merging modality-specific feature CSVs.
-
-Loads features_raw_{t1,t2,t1gd,flair}.csv, filters unreliable rows, renames feature
-columns with modality prefixes, inner-joins on patient_id, and writes the merged dataset
-to outputs/multimodal_lobewise/merged_features.csv.
-"""
 
 from __future__ import annotations
 
@@ -31,6 +25,11 @@ METADATA_COLS = ["patient_id", "OS_months", "lobe_assignment_reliable"]
 
 DEFAULT_INPUTS = {mod: f"outputs/features_raw_{mod}.csv" for mod in MODALITIES}
 DEFAULT_OUTPUT = "outputs/multimodal_lobewise/merged_features.csv"
+DEFAULT_METADATA = "outputs/multimodal_lobewise/metadata_processed.csv"
+DEFAULT_MERGED_OUTPUT = "outputs/multimodal_lobewise/merged_features_with_metadata.csv"
+DEFAULT_SUMMARY_OUTPUT = "outputs/multimodal_lobewise/feature_sets_summary.json"
+
+METADATA_FEATURE_COLS = ["age", "sex", "idh", "mgmt", "who_grade", "eor"]
 
 
 # ── Helpers ──
@@ -90,8 +89,19 @@ def _reorder_columns(df: pd.DataFrame) -> pd.DataFrame:
 
 # ── Public Functions ──
 
-def build_multimodal_dataset(in_csvs: dict[str, Path], out_csv: Path, cfg: dict) -> int:
-    """Load, filter, prefix, merge, and save the multimodal dataset."""
+def build_multimodal_dataset(
+    in_csvs: dict[str, Path],
+    out_csv: Path,
+    cfg: dict,
+    metadata_csv: Path | None = None,
+    merged_out_csv: Path | None = None,
+    summary_out: Path | None = None,
+) -> int:
+    """Load, filter, prefix, merge, and save the multimodal dataset.
+
+    Optionally merges processed clinical/molecular metadata and generates
+    a feature-sets summary.
+    """
     threshold = float(cfg["preprocessing"]["os_high_risk_threshold_months"])
 
     # Load and filter each modality independently
@@ -114,7 +124,7 @@ def build_multimodal_dataset(in_csvs: dict[str, Path], out_csv: Path, cfg: dict)
 
     merged = _reorder_columns(merged)
 
-    # Persist
+    # Persist spatial-only dataset
     out_csv.parent.mkdir(parents=True, exist_ok=True)
     merged.to_csv(out_csv, index=False)
 
@@ -133,7 +143,108 @@ def build_multimodal_dataset(in_csvs: dict[str, Path], out_csv: Path, cfg: dict)
         print("Missing value counts: None")
 
     print(f"Final feature dimension: {len(final_feature_cols)}")
+
+    # ── Metadata merge (STEP 2) ──
+    if metadata_csv is not None and metadata_csv.exists():
+        meta_df = pd.read_csv(metadata_csv)
+        meta_df["patient_id"] = meta_df["patient_id"].astype(str).str.strip()
+
+        merged_with_meta = merged.merge(meta_df, on="patient_id", how="left")
+
+        n_pre = len(merged)
+        n_post = len(merged_with_meta)
+        n_meta_matched = merged_with_meta["age"].notna().sum()
+
+        print(f"\nMetadata merge:")
+        print(f"  Patients before merge: {n_pre}")
+        print(f"  Patients after merge: {n_post}")
+        print(f"  Patients with metadata match: {n_meta_matched}/{n_pre}")
+        print(f"  Patients without metadata: {n_pre - n_meta_matched}")
+
+        if merged_out_csv is not None:
+            merged_out_csv.parent.mkdir(parents=True, exist_ok=True)
+            merged_with_meta.to_csv(merged_out_csv, index=False)
+            print(f"Wrote {len(merged_with_meta)} rows -> {merged_out_csv}")
+
+        # ── Feature sets summary (STEP 3 & 4) ──
+        if summary_out is not None:
+            _write_feature_sets_summary(
+                spatial_df=merged,
+                merged_df=merged_with_meta,
+                spatial_cols=final_feature_cols,
+                summary_path=summary_out,
+            )
+
     return 0
+
+
+def _write_feature_sets_summary(
+    spatial_df: pd.DataFrame,
+    merged_df: pd.DataFrame,
+    spatial_cols: list[str],
+    summary_path: Path,
+) -> None:
+    """Compute and persist summary stats for the three feature sets."""
+    n_patients = len(spatial_df)
+
+    risk_counts = spatial_df["risk_label"].value_counts().to_dict()
+
+    # Feature set A: spatial only (64 features, no missing after median imputation upstream)
+    a_missing = int(spatial_df[spatial_cols].isnull().sum().sum())
+    a_cols = len(spatial_cols)
+
+    # Feature set B: clinical + molecular only
+    meta_feature_cols = [c for c in METADATA_FEATURE_COLS if c in merged_df.columns]
+    b_cols = len(meta_feature_cols)
+    b_missing = int(merged_df[meta_feature_cols].isnull().sum().sum())
+
+    # Feature set C: combined
+    combined_cols = spatial_cols + meta_feature_cols
+    c_cols = len(combined_cols)
+    c_missing = int(merged_df[combined_cols].isnull().sum().sum())
+
+    summary = {
+        "feature_set": {
+            "A_spatial_only": {
+                "number_of_patients": n_patients,
+                "number_of_features": a_cols,
+                "feature_names": spatial_cols,
+                "missingness": a_missing,
+                "class_distribution": risk_counts,
+            },
+            "B_clinical_molecular_only": {
+                "number_of_patients": n_patients,
+                "number_of_features": b_cols,
+                "feature_names": meta_feature_cols,
+                "missingness": b_missing,
+                "class_distribution": risk_counts,
+            },
+            "C_combined": {
+                "number_of_patients": n_patients,
+                "number_of_features": c_cols,
+                "feature_names": combined_cols,
+                "missingness": c_missing,
+                "class_distribution": risk_counts,
+            },
+        },
+        "metadata_merge": {
+            "spatial_patients": n_patients,
+            "metadata_source_patients": int(
+                merged_df["age"].notna().sum()
+            ),
+            "missing_metadata": int(
+                merged_df["age"].isna().sum()
+            ),
+        },
+    }
+
+    summary_path.parent.mkdir(parents=True, exist_ok=True)
+    with summary_path.open("w") as f:
+        json.dump(summary, f, indent=2)
+    print(f"Wrote feature sets summary -> {summary_path}")
+    print(f"  A (spatial): {a_cols} features, {a_missing} missing")
+    print(f"  B (clinical): {b_cols} features, {b_missing} missing")
+    print(f"  C (combined): {c_cols} features, {c_missing} missing")
 
 
 def main() -> int:
@@ -146,7 +257,19 @@ def main() -> int:
     )
     parser.add_argument(
         "--output", default=None,
-        help=f"Output CSV (default: {DEFAULT_OUTPUT})",
+        help=f"Spatial-only CSV (default: {DEFAULT_OUTPUT})",
+    )
+    parser.add_argument(
+        "--metadata", default=None,
+        help=f"Processed metadata CSV (default: {DEFAULT_METADATA})",
+    )
+    parser.add_argument(
+        "--merged-output", default=None,
+        help=f"CSV with metadata merged (default: {DEFAULT_MERGED_OUTPUT})",
+    )
+    parser.add_argument(
+        "--summary", default=None,
+        help=f"Feature sets summary JSON (default: {DEFAULT_SUMMARY_OUTPUT})",
     )
     for mod in MODALITIES:
         parser.add_argument(
@@ -167,7 +290,16 @@ def main() -> int:
         in_csvs[mod] = p
 
     out_csv = _resolve_path(root, args.output or DEFAULT_OUTPUT)
-    return build_multimodal_dataset(in_csvs, out_csv, cfg)
+    metadata_csv = _resolve_path(root, args.metadata or DEFAULT_METADATA)
+    merged_out_csv = _resolve_path(root, args.merged_output or DEFAULT_MERGED_OUTPUT)
+    summary_out = _resolve_path(root, args.summary or DEFAULT_SUMMARY_OUTPUT)
+
+    return build_multimodal_dataset(
+        in_csvs, out_csv, cfg,
+        metadata_csv=metadata_csv,
+        merged_out_csv=merged_out_csv,
+        summary_out=summary_out,
+    )
 
 
 if __name__ == "__main__":

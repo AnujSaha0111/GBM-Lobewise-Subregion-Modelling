@@ -1,0 +1,12 @@
+{
+  "brier_score": 0.23685076210727776,
+  "calibration_intercept": 0.0023731594126120584,
+  "calibration_slope": 0.948526648136923,
+  "hosmer_lemeshow_statistic": 7.913336350369088,
+  "hosmer_lemeshow_df": 8,
+  "hosmer_lemeshow_p_value": 0.44198123723792115,
+  "ece": 0.11429001219579227,
+  "mce": 0.23717713148585295,
+  "n_bins": 10,
+  "n_samples": 99
+}

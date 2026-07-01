@@ -1,0 +1,5 @@
+Model,Threshold range with positive NB,Maximum NB,Threshold at max NB
+Spatial Only,0.01 - 0.68,0.438833,0.01
+Clinical Only,0.01 - 0.57,0.438833,0.01
+Combined,0.01 - 0.80,0.438833,0.01
+Treat All,0.01 - 0.44,0.438833,0.01

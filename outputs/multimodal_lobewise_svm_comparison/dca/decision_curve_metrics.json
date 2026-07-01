@@ -1,0 +1,47 @@
+{
+  "spatial": {
+    "model": "Spatial Only",
+    "n_test": 99,
+    "n_high_risk": 44,
+    "max_net_benefit": 0.4388327721661055,
+    "threshold_at_max_nb": 0.01,
+    "positive_nb_min_threshold": 0.01,
+    "positive_nb_max_threshold": 0.68,
+    "net_benefit_at_01": 0.4388327721661055,
+    "net_benefit_at_05": 0.4152046783625731,
+    "net_benefit_at_10": 0.38271604938271603,
+    "net_benefit_at_20": 0.3055555555555555,
+    "net_benefit_at_30": 0.2005772005772006,
+    "threshold_range_positive_nb": "[0.01, 0.68]"
+  },
+  "clinical": {
+    "model": "Clinical Only",
+    "n_test": 99,
+    "n_high_risk": 44,
+    "max_net_benefit": 0.4388327721661055,
+    "threshold_at_max_nb": 0.01,
+    "positive_nb_min_threshold": 0.01,
+    "positive_nb_max_threshold": 0.57,
+    "net_benefit_at_01": 0.4388327721661055,
+    "net_benefit_at_05": 0.4152046783625731,
+    "net_benefit_at_10": 0.38271604938271603,
+    "net_benefit_at_20": 0.3055555555555555,
+    "net_benefit_at_30": 0.2178932178932179,
+    "threshold_range_positive_nb": "[0.01, 0.57]"
+  },
+  "combined": {
+    "model": "Combined",
+    "n_test": 99,
+    "n_high_risk": 44,
+    "max_net_benefit": 0.4388327721661055,
+    "threshold_at_max_nb": 0.01,
+    "positive_nb_min_threshold": 0.01,
+    "positive_nb_max_threshold": 0.8,
+    "net_benefit_at_01": 0.4388327721661055,
+    "net_benefit_at_05": 0.4152046783625731,
+    "net_benefit_at_10": 0.38271604938271603,
+    "net_benefit_at_20": 0.31313131313131315,
+    "net_benefit_at_30": 0.23376623376623373,
+    "threshold_range_positive_nb": "[0.01, 0.80]"
+  }
+}

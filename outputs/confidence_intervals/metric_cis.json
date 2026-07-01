@@ -1,0 +1,80 @@
+{
+  "spatial": {
+    "accuracy": {
+      "point_estimate": 0.6161616161616161,
+      "ci_lower": 0.5252525252525253,
+      "ci_upper": 0.7070707070707071,
+      "n_valid_bootstrap": 5000
+    },
+    "precision": {
+      "point_estimate": 0.575,
+      "ci_lower": 0.4222222222222222,
+      "ci_upper": 0.7273200757575751,
+      "n_valid_bootstrap": 5000
+    },
+    "recall": {
+      "point_estimate": 0.5227272727272727,
+      "ci_lower": 0.37777777777777777,
+      "ci_upper": 0.6730769230769231,
+      "n_valid_bootstrap": 5000
+    },
+    "f1_score": {
+      "point_estimate": 0.5476190476190477,
+      "ci_lower": 0.4117647058823529,
+      "ci_upper": 0.6666666666666666,
+      "n_valid_bootstrap": 5000
+    }
+  },
+  "metadata": {
+    "accuracy": {
+      "point_estimate": 0.5555555555555556,
+      "ci_lower": 0.45454545454545453,
+      "ci_upper": 0.6565656565656566,
+      "n_valid_bootstrap": 5000
+    },
+    "precision": {
+      "point_estimate": 0.5,
+      "ci_lower": 0.38708602150537635,
+      "ci_upper": 0.6144578313253012,
+      "n_valid_bootstrap": 5000
+    },
+    "recall": {
+      "point_estimate": 0.8863636363636364,
+      "ci_lower": 0.7872340425531915,
+      "ci_upper": 0.975609756097561,
+      "n_valid_bootstrap": 5000
+    },
+    "f1_score": {
+      "point_estimate": 0.639344262295082,
+      "ci_lower": 0.5309734513274337,
+      "ci_upper": 0.7352941176470589,
+      "n_valid_bootstrap": 5000
+    }
+  },
+  "combined": {
+    "accuracy": {
+      "point_estimate": 0.6262626262626263,
+      "ci_lower": 0.5353535353535354,
+      "ci_upper": 0.7171717171717171,
+      "n_valid_bootstrap": 5000
+    },
+    "precision": {
+      "point_estimate": 0.5714285714285714,
+      "ci_lower": 0.4318181818181818,
+      "ci_upper": 0.7119249394673115,
+      "n_valid_bootstrap": 5000
+    },
+    "recall": {
+      "point_estimate": 0.6363636363636364,
+      "ci_lower": 0.4888888888888889,
+      "ci_upper": 0.7755102040816326,
+      "n_valid_bootstrap": 5000
+    },
+    "f1_score": {
+      "point_estimate": 0.6021505376344086,
+      "ci_lower": 0.4772727272727273,
+      "ci_upper": 0.709692493216762,
+      "n_valid_bootstrap": 5000
+    }
+  }
+}
