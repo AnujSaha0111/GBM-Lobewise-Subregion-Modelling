@@ -1,0 +1,234 @@
+{
+  "metadata": {
+    "test_cohort_n": 99,
+    "n_positive": 44,
+    "n_negative": 55,
+    "alpha": 0.05,
+    "power": 0.8,
+    "z_alpha2": 1.96,
+    "z_beta": 0.8416,
+    "t_alpha2_df97": 1.9847,
+    "t_beta_df97": 0.8453,
+    "method_AUC": "Hanley-McNeil (1983) variance for single AUC; paired difference with correlation adjustment",
+    "method_Cohen_d": "Two-sample t-test (independent groups)",
+    "method_accuracy": "McNemar test framework for paired binary outcomes; one-sample z-test vs 0.5"
+  },
+  "observed_values": {
+    "AUC_spatial": 0.632,
+    "AUC_clinical": 0.772,
+    "AUC_combined": 0.703,
+    "Cohen_d_range": "-0.329 to 0.406",
+    "AUC_diff_clinical_vs_spatial": 0.14,
+    "AUC_diff_combined_vs_spatial": 0.071,
+    "AUC_diff_clinical_vs_combined": 0.069
+  },
+  "A_minimum_detectable_AUC_difference": {
+    "primary_assumption": {
+      "description": "Spatial (0.632) vs Clinical (0.772) with r = 0.5 (moderate correlation)",
+      "var_AUC_spatial": 0.00321753,
+      "var_AUC_clinical": 0.00236455,
+      "assumed_correlation_r": 0.5,
+      "var_diff": 0.00282382,
+      "se_diff": 0.05314,
+      "mde_AUC": 0.1489
+    },
+    "worst_case_independent_comparison": {
+      "description": "Spatial (0.632) vs Clinical (0.772) with r = 0 (independent, conservative)",
+      "var_diff": 0.00558208,
+      "se_diff": 0.074713,
+      "mde_AUC": 0.2093
+    },
+    "by_pair_and_correlation": [
+      {
+        "comparison": "AUC0.632_vs_AUC0.772",
+        "AUC1": 0.632,
+        "AUC2": 0.772,
+        "correlation_r": 0.0,
+        "var_AUC1": 0.00321753,
+        "var_AUC2": 0.00236455,
+        "var_diff": 0.00558208,
+        "se_diff": 0.074713,
+        "mde_AUC": 0.2093
+      },
+      {
+        "comparison": "AUC0.632_vs_AUC0.772",
+        "AUC1": 0.632,
+        "AUC2": 0.772,
+        "correlation_r": 0.3,
+        "var_AUC1": 0.00321753,
+        "var_AUC2": 0.00236455,
+        "var_diff": 0.00392712,
+        "se_diff": 0.062667,
+        "mde_AUC": 0.1756
+      },
+      {
+        "comparison": "AUC0.632_vs_AUC0.772",
+        "AUC1": 0.632,
+        "AUC2": 0.772,
+        "correlation_r": 0.5,
+        "var_AUC1": 0.00321753,
+        "var_AUC2": 0.00236455,
+        "var_diff": 0.00282382,
+        "se_diff": 0.05314,
+        "mde_AUC": 0.1489
+      },
+      {
+        "comparison": "AUC0.632_vs_AUC0.772",
+        "AUC1": 0.632,
+        "AUC2": 0.772,
+        "correlation_r": 0.7,
+        "var_AUC1": 0.00321753,
+        "var_AUC2": 0.00236455,
+        "var_diff": 0.00172051,
+        "se_diff": 0.041479,
+        "mde_AUC": 0.1162
+      },
+      {
+        "comparison": "AUC0.632_vs_AUC0.703",
+        "AUC1": 0.632,
+        "AUC2": 0.703,
+        "correlation_r": 0.0,
+        "var_AUC1": 0.00321753,
+        "var_AUC2": 0.00285904,
+        "var_diff": 0.00607657,
+        "se_diff": 0.077952,
+        "mde_AUC": 0.2184
+      },
+      {
+        "comparison": "AUC0.632_vs_AUC0.703",
+        "AUC1": 0.632,
+        "AUC2": 0.703,
+        "correlation_r": 0.3,
+        "var_AUC1": 0.00321753,
+        "var_AUC2": 0.00285904,
+        "var_diff": 0.00425677,
+        "se_diff": 0.065244,
+        "mde_AUC": 0.1828
+      },
+      {
+        "comparison": "AUC0.632_vs_AUC0.703",
+        "AUC1": 0.632,
+        "AUC2": 0.703,
+        "correlation_r": 0.5,
+        "var_AUC1": 0.00321753,
+        "var_AUC2": 0.00285904,
+        "var_diff": 0.00304358,
+        "se_diff": 0.055169,
+        "mde_AUC": 0.1546
+      },
+      {
+        "comparison": "AUC0.632_vs_AUC0.703",
+        "AUC1": 0.632,
+        "AUC2": 0.703,
+        "correlation_r": 0.7,
+        "var_AUC1": 0.00321753,
+        "var_AUC2": 0.00285904,
+        "var_diff": 0.00183038,
+        "se_diff": 0.042783,
+        "mde_AUC": 0.1199
+      },
+      {
+        "comparison": "AUC0.703_vs_AUC0.772",
+        "AUC1": 0.703,
+        "AUC2": 0.772,
+        "correlation_r": 0.0,
+        "var_AUC1": 0.00285904,
+        "var_AUC2": 0.00236455,
+        "var_diff": 0.0052236,
+        "se_diff": 0.072274,
+        "mde_AUC": 0.2025
+      },
+      {
+        "comparison": "AUC0.703_vs_AUC0.772",
+        "AUC1": 0.703,
+        "AUC2": 0.772,
+        "correlation_r": 0.3,
+        "var_AUC1": 0.00285904,
+        "var_AUC2": 0.00236455,
+        "var_diff": 0.00366355,
+        "se_diff": 0.060527,
+        "mde_AUC": 0.1696
+      },
+      {
+        "comparison": "AUC0.703_vs_AUC0.772",
+        "AUC1": 0.703,
+        "AUC2": 0.772,
+        "correlation_r": 0.5,
+        "var_AUC1": 0.00285904,
+        "var_AUC2": 0.00236455,
+        "var_diff": 0.00262353,
+        "se_diff": 0.05122,
+        "mde_AUC": 0.1435
+      },
+      {
+        "comparison": "AUC0.703_vs_AUC0.772",
+        "AUC1": 0.703,
+        "AUC2": 0.772,
+        "correlation_r": 0.7,
+        "var_AUC1": 0.00285904,
+        "var_AUC2": 0.00236455,
+        "var_diff": 0.0015835,
+        "se_diff": 0.039793,
+        "mde_AUC": 0.1115
+      }
+    ]
+  },
+  "B_minimum_detectable_Cohen_d": {
+    "test": "Two-sample t-test (two-sided)",
+    "df": 97,
+    "n1": 44,
+    "n2": 55,
+    "t_alpha2": 1.9847,
+    "t_beta": 0.8453,
+    "mde_Cohen_d": 0.5724,
+    "interpretation": {
+      "small_effect_threshold": 0.2,
+      "medium_effect_threshold": 0.5,
+      "large_effect_threshold": 0.8,
+      "study_can_detect": "Medium-to-large effects (d >= 0.572)"
+    }
+  },
+  "C_minimum_detectable_accuracy_difference": {
+    "description": "Minimum detectable difference in accuracy between two paired classifiers (McNemar framework)",
+    "by_discordant_proportion": [
+      {
+        "discordant_proportion": 0.1,
+        "discordant_pairs_ND": 10,
+        "se_delta_accuracy": 0.031782,
+        "mde_delta_accuracy": 0.089
+      },
+      {
+        "discordant_proportion": 0.15,
+        "discordant_pairs_ND": 15,
+        "se_delta_accuracy": 0.038925,
+        "mde_delta_accuracy": 0.1091
+      },
+      {
+        "discordant_proportion": 0.2,
+        "discordant_pairs_ND": 20,
+        "se_delta_accuracy": 0.044947,
+        "mde_delta_accuracy": 0.1259
+      },
+      {
+        "discordant_proportion": 0.25,
+        "discordant_pairs_ND": 25,
+        "se_delta_accuracy": 0.050252,
+        "mde_delta_accuracy": 0.1408
+      },
+      {
+        "discordant_proportion": 0.3,
+        "discordant_pairs_ND": 30,
+        "se_delta_accuracy": 0.055048,
+        "mde_delta_accuracy": 0.1542
+      }
+    ],
+    "one_sample_vs_chance": {
+      "description": "Minimum detectable absolute deviation from 0.5 (chance) for a single classifier",
+      "n": 99,
+      "se": 0.050252,
+      "mde_accuracy_vs_chance": 0.1408
+    }
+  },
+  "publication_ready_sentence": "Given a test cohort of 99 patients (44 high-risk, 55 low-risk), the study was powered (alpha = 0.05, power = 0.8) to detect only moderate-to-large differences in discrimination performance. The minimum detectable AUC difference between two correlated classifiers was 0.149 (assuming r = 0.5), and the minimum detectable Cohen's d between groups was 0.572. Smaller effects may therefore have gone undetected.",
+  "interpretation": "The observed AUC difference between the clinical and spatial models was 0.140, which exceeds the minimum detectable effect (MDE = 0.149) and was statistically significant (p = 0.017) before FDR correction. However, the smaller difference between combined and spatial models (0.071) was near the MDE threshold, consistent with its marginal p-value (p = 0.037). For Cohen's d, the largest observed effect (frontal enhancing, d = 0.406) exceeds the MDE (d = 0.572), while smaller effects (d ~ 0.25) are near or below the detection threshold. These results indicate that modest but potentially meaningful effects may have been missed due to limited sample size, and the absence of statistically significant differences after FDR correction should be interpreted within this context."
+}

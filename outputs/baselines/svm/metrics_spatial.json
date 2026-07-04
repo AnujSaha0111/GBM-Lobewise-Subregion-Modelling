@@ -43,7 +43,7 @@
     }
   },
   "best_params": {
-    "clf__C": 100,
-    "clf__gamma": 0.001
+    "svc__C": 100,
+    "svc__gamma": 0.001
   }
 }

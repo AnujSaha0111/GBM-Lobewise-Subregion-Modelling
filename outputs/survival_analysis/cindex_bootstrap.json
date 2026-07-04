@@ -1,0 +1,39 @@
+{
+  "Clinical-molecular Cox": {
+    "model": "Clinical-molecular Cox",
+    "n_bootstrap": 5000,
+    "cindex_mean": 0.7464608042151647,
+    "cindex_median": 0.7469134762309163,
+    "cindex_std": 0.016477441011774768,
+    "ci_95_lower": 0.7143098322725054,
+    "ci_95_upper": 0.7781011622543026
+  },
+  "Spatial Cox": {
+    "model": "Spatial Cox",
+    "n_bootstrap": 5000,
+    "cindex_mean": 0.6589298301143346,
+    "cindex_median": 0.6591237714359625,
+    "cindex_std": 0.018964789167578083,
+    "ci_95_lower": 0.6219953311214481,
+    "ci_95_upper": 0.6964767836139751
+  },
+  "Combined Cox": {
+    "model": "Combined Cox",
+    "n_bootstrap": 5000,
+    "cindex_mean": 0.7649876330924485,
+    "cindex_median": 0.7652123575524103,
+    "cindex_std": 0.01510036483310396,
+    "ci_95_lower": 0.7350803591380591,
+    "ci_95_upper": 0.7942649982129737
+  },
+  "RSF": {
+    "model": "RSF",
+    "n_bootstrap": 0,
+    "cindex_mean": NaN,
+    "cindex_median": NaN,
+    "cindex_std": NaN,
+    "ci_95_lower": NaN,
+    "ci_95_upper": NaN,
+    "note": "RSF bootstrap not completed; summary omitted to avoid rerunning the multi-hour bootstrap."
+  }
+}

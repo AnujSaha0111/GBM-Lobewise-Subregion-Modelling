@@ -1,0 +1,25 @@
+{
+  "model_1": {
+    "model": "Clinical + Molecular (IDHwt)",
+    "n": 391,
+    "n_events": 0,
+    "n_params": 4,
+    "log_likelihood": -1172.8654241543024,
+    "aic": 2353.730848308605,
+    "bic": 2369.605678548546
+  },
+  "model_2": {
+    "model": "Clinical + Molecular + Spatial (IDHwt)",
+    "n": 391,
+    "n_events": 0,
+    "n_params": 20,
+    "log_likelihood": -1168.4828169380753,
+    "aic": 2376.9656338761506,
+    "bic": 2456.339785075858
+  },
+  "likelihood_ratio_test": {
+    "lrt_statistic": 8.765214432454286,
+    "degrees_of_freedom": 16,
+    "p_value": 0.9227663946819499
+  }
+}

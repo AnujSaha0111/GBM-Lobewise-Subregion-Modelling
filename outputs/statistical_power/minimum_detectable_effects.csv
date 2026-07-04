@@ -1,0 +1,39 @@
+Metric,Value,Notes
+test_cohort_n,99,Held-out test set
+n_positive,44,High-risk (OS <= 12 mo)
+n_negative,55,Low-risk (OS > 12 mo)
+alpha,0.05,Significance level
+power,0.8,Target statistical power
+
+AUC: MDE (primary),0.1489,"Spatial vs Clinical, r = 0.5"
+AUC: MDE (worst-case independent),0.2093,"Spatial vs Clinical, r = 0"
+AUC: var(spatial),0.00321753,Hanley-McNeil
+AUC: var(clinical),0.00236455,Hanley-McNeil
+"AUC: MDE (AUC0.632_vs_AUC0.772, r=0.0)",0.2093,
+"AUC: MDE (AUC0.632_vs_AUC0.772, r=0.3)",0.1756,
+"AUC: MDE (AUC0.632_vs_AUC0.772, r=0.5)",0.1489,
+"AUC: MDE (AUC0.632_vs_AUC0.772, r=0.7)",0.1162,
+"AUC: MDE (AUC0.632_vs_AUC0.703, r=0.0)",0.2184,
+"AUC: MDE (AUC0.632_vs_AUC0.703, r=0.3)",0.1828,
+"AUC: MDE (AUC0.632_vs_AUC0.703, r=0.5)",0.1546,
+"AUC: MDE (AUC0.632_vs_AUC0.703, r=0.7)",0.1199,
+"AUC: MDE (AUC0.703_vs_AUC0.772, r=0.0)",0.2025,
+"AUC: MDE (AUC0.703_vs_AUC0.772, r=0.3)",0.1696,
+"AUC: MDE (AUC0.703_vs_AUC0.772, r=0.5)",0.1435,
+"AUC: MDE (AUC0.703_vs_AUC0.772, r=0.7)",0.1115,
+
+Cohen's d: MDE,0.5724,"Two-sample t-test, n1=44, n2=55, df=97"
+Cohen's d: t(alpha/2),1.9847,
+Cohen's d: t(beta),0.8453,
+
+Accuracy: MDE (discordant=10%),0.089,ND = 10
+Accuracy: MDE (discordant=15%),0.1091,ND = 15
+Accuracy: MDE (discordant=20%),0.1259,ND = 20
+Accuracy: MDE (discordant=25%),0.1408,ND = 25
+Accuracy: MDE (discordant=30%),0.1542,ND = 30
+Accuracy: MDE vs chance (0.5),0.1408,One-sample z-test for proportion
+
+Observed: AUC spatial,0.632,
+Observed: AUC clinical,0.772,
+Observed: AUC combined,0.703,
+Observed: largest Cohen's d,0.4061,Frontal enhancing ratio

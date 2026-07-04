@@ -1,0 +1,148 @@
+[
+  {
+    "outcome": "IDH_binary",
+    "n": 494,
+    "n_events": 102,
+    "cv_auc": 0.8763255302120849,
+    "features": [
+      {
+        "feature": "T1_global_ed_total_ratio",
+        "outcome": "IDH_binary",
+        "coefficient": 0.5861203632573926,
+        "odds_ratio": 1.797003154557148,
+        "or_ci_lower": 1.5650727600080374,
+        "or_ci_upper": 2.247669810867792
+      },
+      {
+        "feature": "T1GD_global_ed_total_ratio",
+        "outcome": "IDH_binary",
+        "coefficient": 0.5861203632573926,
+        "odds_ratio": 1.797003154557148,
+        "or_ci_lower": 1.5650727600080374,
+        "or_ci_upper": 2.247669810867792
+      },
+      {
+        "feature": "FLAIR_global_ed_total_ratio",
+        "outcome": "IDH_binary",
+        "coefficient": 0.5861203632573926,
+        "odds_ratio": 1.797003154557148,
+        "or_ci_lower": 1.5650727600080374,
+        "or_ci_upper": 2.247669810867792
+      },
+      {
+        "feature": "T2_global_ed_total_ratio",
+        "outcome": "IDH_binary",
+        "coefficient": 0.5861203632573926,
+        "odds_ratio": 1.797003154557148,
+        "or_ci_lower": 1.5650727600080374,
+        "or_ci_upper": 2.247669810867792
+      },
+      {
+        "feature": "T2_global_nc_en_ratio",
+        "outcome": "IDH_binary",
+        "coefficient": 0.28591859933197156,
+        "odds_ratio": 1.330984107847062,
+        "or_ci_lower": 0.91961270322514,
+        "or_ci_upper": 2.498411347201502
+      },
+      {
+        "feature": "FLAIR_global_nc_en_ratio",
+        "outcome": "IDH_binary",
+        "coefficient": 0.28591859933197156,
+        "odds_ratio": 1.330984107847062,
+        "or_ci_lower": 0.91961270322514,
+        "or_ci_upper": 2.498411347201502
+      },
+      {
+        "feature": "T1GD_global_nc_en_ratio",
+        "outcome": "IDH_binary",
+        "coefficient": 0.28591859933197156,
+        "odds_ratio": 1.330984107847062,
+        "or_ci_lower": 0.91961270322514,
+        "or_ci_upper": 2.498411347201502
+      },
+      {
+        "feature": "T1_global_nc_en_ratio",
+        "outcome": "IDH_binary",
+        "coefficient": 0.28591859933197156,
+        "odds_ratio": 1.330984107847062,
+        "or_ci_lower": 0.91961270322514,
+        "or_ci_upper": 2.498411347201502
+      }
+    ],
+    "intercept": -2.486775732837266
+  },
+  {
+    "outcome": "MGMT_binary",
+    "n": 413,
+    "n_events": 300,
+    "cv_auc": 0.38976401179941006,
+    "features": [
+      {
+        "feature": "T1_global_nc_en_ratio",
+        "outcome": "MGMT_binary",
+        "coefficient": 0.06941871690343776,
+        "odds_ratio": 1.0718849315373404,
+        "or_ci_lower": 0.7769395389985222,
+        "or_ci_upper": 1.1818093174668904
+      },
+      {
+        "feature": "T1GD_global_nc_en_ratio",
+        "outcome": "MGMT_binary",
+        "coefficient": 0.06941871690343776,
+        "odds_ratio": 1.0718849315373404,
+        "or_ci_lower": 0.7769395389985222,
+        "or_ci_upper": 1.1818093174668904
+      },
+      {
+        "feature": "FLAIR_global_nc_en_ratio",
+        "outcome": "MGMT_binary",
+        "coefficient": 0.06941871690343776,
+        "odds_ratio": 1.0718849315373404,
+        "or_ci_lower": 0.7769395389985222,
+        "or_ci_upper": 1.1818093174668904
+      },
+      {
+        "feature": "T1_global_ed_total_ratio",
+        "outcome": "MGMT_binary",
+        "coefficient": 0.060602175564209326,
+        "odds_ratio": 1.0624761511246703,
+        "or_ci_lower": 0.8176338857383905,
+        "or_ci_upper": 1.4146505946105443
+      },
+      {
+        "feature": "T1_frontal_ed_ratio",
+        "outcome": "MGMT_binary",
+        "coefficient": -0.08633319025009047,
+        "odds_ratio": 0.9172885486968153,
+        "or_ci_lower": 0.6498180589157401,
+        "or_ci_upper": 1.2003538579605857
+      },
+      {
+        "feature": "T1_frontal_en_ratio",
+        "outcome": "MGMT_binary",
+        "coefficient": 0.09298213642424356,
+        "odds_ratio": 1.0974421308523372,
+        "or_ci_lower": 0.7862906796832728,
+        "or_ci_upper": 1.7226180316656325
+      },
+      {
+        "feature": "T1_frontal_nc_ratio",
+        "outcome": "MGMT_binary",
+        "coefficient": 0.01812130918148352,
+        "odds_ratio": 1.0182864963989806,
+        "or_ci_lower": 0.6370872901535842,
+        "or_ci_upper": 1.5838718852237723
+      },
+      {
+        "feature": "T1_global_ed_en_ratio",
+        "outcome": "MGMT_binary",
+        "coefficient": -0.10051950130050381,
+        "odds_ratio": 0.9043674758988901,
+        "or_ci_lower": 0.5844010885417521,
+        "or_ci_upper": 2.021532705814245
+      }
+    ],
+    "intercept": 0.9839619110964901
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "n_bootstrap": 5000,
+  "observed_delta_cindex": 0.013247661546382905,
+  "mean_delta_cindex": 0.023461122847718882,
+  "median_delta_cindex": 0.0225761869961561,
+  "std_delta_cindex": 0.011451340575995115,
+  "ci_95_lower": 0.0036339749102395546,
+  "ci_95_upper": 0.04812960122060599,
+  "p_value_bootstrap": 0.3802
+}

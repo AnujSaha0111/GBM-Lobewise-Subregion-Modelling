@@ -1,0 +1,283 @@
+{
+  "clinical_molecular_cox": {
+    "cindex": 0.7438004657211117,
+    "n_features": 5,
+    "features": [
+      "age",
+      "sex",
+      "mgmt",
+      "idh",
+      "eor"
+    ],
+    "coefficients": {
+      "age": {
+        "coef": 0.03348333538260572,
+        "exp_coef": 1.0340502115315533,
+        "p": 4.252268615703735e-08
+      },
+      "sex": {
+        "coef": 0.23676815666956316,
+        "exp_coef": 1.2671473040660965,
+        "p": 0.07506683666530849
+      },
+      "mgmt": {
+        "coef": -0.26395430747330817,
+        "exp_coef": 0.7680086311098681,
+        "p": 0.06799728284508567
+      },
+      "idh": {
+        "coef": -2.015502518629695,
+        "exp_coef": 0.13325342421008585,
+        "p": 2.3611343462068767e-09
+      },
+      "eor": {
+        "coef": -0.6064795645950559,
+        "exp_coef": 0.5452670716659878,
+        "p": 8.623561301128752e-10
+      }
+    }
+  },
+  "spatial_cox": {
+    "cindex": 0.6455529682160462,
+    "n_features": 16,
+    "features": [
+      "global_nc_en_ratio",
+      "global_ed_en_ratio",
+      "global_ed_total_ratio",
+      "tumor_burden_index",
+      "frontal_ed_ratio",
+      "frontal_en_ratio",
+      "frontal_nc_ratio",
+      "temporal_ed_ratio",
+      "temporal_en_ratio",
+      "temporal_nc_ratio",
+      "parietal_ed_ratio",
+      "parietal_en_ratio",
+      "parietal_nc_ratio",
+      "occipital_ed_ratio",
+      "occipital_en_ratio",
+      "occipital_nc_ratio"
+    ],
+    "coefficients": {
+      "global_nc_en_ratio": {
+        "coef": -0.002420757156085651,
+        "exp_coef": 0.9975821705136497,
+        "p": 0.8097597678460277
+      },
+      "global_ed_en_ratio": {
+        "coef": -0.00011975627733185503,
+        "exp_coef": 0.9998802508931649,
+        "p": 0.7008921539568636
+      },
+      "global_ed_total_ratio": {
+        "coef": -1.3808532627503607,
+        "exp_coef": 0.25136398200740245,
+        "p": 0.002316869916345198
+      },
+      "tumor_burden_index": {
+        "coef": 118.51787480454988,
+        "exp_coef": 2.9625046078532632e+51,
+        "p": 0.06922321702510718
+      },
+      "frontal_ed_ratio": {
+        "coef": -49.19469074306245,
+        "exp_coef": 4.315362381455934e-22,
+        "p": 0.0829603392922036
+      },
+      "frontal_en_ratio": {
+        "coef": -36.720334849387044,
+        "exp_coef": 1.1286549776624802e-16,
+        "p": 0.19739670257167957
+      },
+      "frontal_nc_ratio": {
+        "coef": -62.12824621289823,
+        "exp_coef": 1.0424266348199454e-27,
+        "p": 0.035002208270464394
+      },
+      "temporal_ed_ratio": {
+        "coef": -32.83500374135732,
+        "exp_coef": 5.494637702953342e-15,
+        "p": 0.06435708760635249
+      },
+      "temporal_en_ratio": {
+        "coef": -20.400669381421924,
+        "exp_coef": 1.3807080613571769e-09,
+        "p": 0.273487708521279
+      },
+      "temporal_nc_ratio": {
+        "coef": -48.785322610315276,
+        "exp_coef": 6.498357388825517e-22,
+        "p": 0.01016802833455988
+      },
+      "parietal_ed_ratio": {
+        "coef": -21.44593962216024,
+        "exp_coef": 4.85452523352432e-10,
+        "p": 0.08561948594671853
+      },
+      "parietal_en_ratio": {
+        "coef": -15.22859700024177,
+        "exp_coef": 2.433909106769218e-07,
+        "p": 0.26325299523215395
+      },
+      "parietal_nc_ratio": {
+        "coef": -30.967027990534678,
+        "exp_coef": 3.557874483582124e-14,
+        "p": 0.028022320481238143
+      },
+      "occipital_ed_ratio": {
+        "coef": -9.611066414047157,
+        "exp_coef": 6.69833542113729e-05,
+        "p": 0.26759552473485765
+      },
+      "occipital_en_ratio": {
+        "coef": -23.515271610769112,
+        "exp_coef": 6.129814032212808e-11,
+        "p": 0.031688721303725215
+      },
+      "occipital_nc_ratio": {
+        "coef": -2.0174296465363057,
+        "exp_coef": 0.13299687509851346,
+        "p": 0.8641061448004783
+      }
+    }
+  },
+  "combined_cox": {
+    "cindex": 0.7519883872138385,
+    "n_features": 21,
+    "features": [
+      "age",
+      "sex",
+      "mgmt",
+      "idh",
+      "eor",
+      "global_nc_en_ratio",
+      "global_ed_en_ratio",
+      "global_ed_total_ratio",
+      "tumor_burden_index",
+      "frontal_ed_ratio",
+      "frontal_en_ratio",
+      "frontal_nc_ratio",
+      "temporal_ed_ratio",
+      "temporal_en_ratio",
+      "temporal_nc_ratio",
+      "parietal_ed_ratio",
+      "parietal_en_ratio",
+      "parietal_nc_ratio",
+      "occipital_ed_ratio",
+      "occipital_en_ratio",
+      "occipital_nc_ratio"
+    ],
+    "coefficients": {
+      "age": {
+        "coef": 0.010692937488249317,
+        "exp_coef": 1.0107503112600111,
+        "p": 0.07527899482035683
+      },
+      "sex": {
+        "coef": 0.060534634296591505,
+        "exp_coef": 1.062404392561969,
+        "p": 0.6524639909847971
+      },
+      "mgmt": {
+        "coef": -0.08270166158842054,
+        "exp_coef": 0.9206257642818538,
+        "p": 0.6100625471512803
+      },
+      "idh": {
+        "coef": -0.3511957253688676,
+        "exp_coef": 0.7038459798590937,
+        "p": 0.11801326196613378
+      },
+      "eor": {
+        "coef": -0.2218441672217867,
+        "exp_coef": 0.8010401829261585,
+        "p": 0.04957877043685688
+      },
+      "global_nc_en_ratio": {
+        "coef": -0.0005267015118359558,
+        "exp_coef": 0.9994734371710561,
+        "p": 0.864288629056604
+      },
+      "global_ed_en_ratio": {
+        "coef": 2.149847587623876e-05,
+        "exp_coef": 1.0000214987069702,
+        "p": 0.8566558985862658
+      },
+      "global_ed_total_ratio": {
+        "coef": 0.13328496419861105,
+        "exp_coef": 1.1425755450686617,
+        "p": 0.789297153914772
+      },
+      "tumor_burden_index": {
+        "coef": 62.321997797102235,
+        "exp_coef": 1.1643934250868643e+27,
+        "p": 0.35551062331744243
+      },
+      "frontal_ed_ratio": {
+        "coef": -26.31354658528248,
+        "exp_coef": 3.733979409012862e-12,
+        "p": 0.3692939701243546
+      },
+      "frontal_en_ratio": {
+        "coef": -23.65283912371534,
+        "exp_coef": 5.341982822994327e-11,
+        "p": 0.4199785510581562
+      },
+      "frontal_nc_ratio": {
+        "coef": -25.526397708146366,
+        "exp_coef": 8.204012860371164e-12,
+        "p": 0.4073603477569211
+      },
+      "temporal_ed_ratio": {
+        "coef": -17.390523354317487,
+        "exp_coef": 2.8015067281231894e-08,
+        "p": 0.3451799056307103
+      },
+      "temporal_en_ratio": {
+        "coef": -15.1278911220675,
+        "exp_coef": 2.691784963844618e-07,
+        "p": 0.4292818125468131
+      },
+      "temporal_nc_ratio": {
+        "coef": -19.01209316251128,
+        "exp_coef": 5.535448952506158e-09,
+        "p": 0.3201469416044703
+      },
+      "parietal_ed_ratio": {
+        "coef": -12.218036564840842,
+        "exp_coef": 4.940536819067956e-06,
+        "p": 0.34213562403122544
+      },
+      "parietal_en_ratio": {
+        "coef": -8.334141555268385,
+        "exp_coef": 0.00024017528302240767,
+        "p": 0.5665509828839572
+      },
+      "parietal_nc_ratio": {
+        "coef": -14.272655786689864,
+        "exp_coef": 6.330883907659052e-07,
+        "p": 0.3322579836828259
+      },
+      "occipital_ed_ratio": {
+        "coef": -6.241617593234348,
+        "exp_coef": 0.001946703999372127,
+        "p": 0.48594886183893604
+      },
+      "occipital_en_ratio": {
+        "coef": -11.388474671391304,
+        "exp_coef": 1.132526291523566e-05,
+        "p": 0.32875425054583934
+      },
+      "occipital_nc_ratio": {
+        "coef": -1.8903845634662433,
+        "exp_coef": 0.1510137233074151,
+        "p": 0.8827299428557602
+      }
+    }
+  },
+  "rsf": {
+    "cindex": 0.9006713641999576,
+    "n_features": 21,
+    "n_estimators": 1000
+  }
+}

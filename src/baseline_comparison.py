@@ -61,6 +61,7 @@ MODEL_CONFIGS = [
     {
         "name": "Logistic Regression",
         "key": "lr",
+        "step": "clf",
         "color": "#1b9e77",
         "estimator": LogisticRegression(max_iter=5000, random_state=RANDOM_STATE, class_weight="balanced"),
         "param_grid": {
@@ -70,6 +71,7 @@ MODEL_CONFIGS = [
     {
         "name": "Random Forest",
         "key": "rf",
+        "step": "clf",
         "color": "#d95f02",
         "estimator": RandomForestClassifier(random_state=RANDOM_STATE, class_weight="balanced"),
         "param_grid": {
@@ -80,6 +82,7 @@ MODEL_CONFIGS = [
     {
         "name": "XGBoost",
         "key": "xgb",
+        "step": "clf",
         "color": "#7570b3",
         "estimator": XGBClassifier(
             eval_metric="logloss", random_state=RANDOM_STATE,
@@ -94,10 +97,13 @@ MODEL_CONFIGS = [
     {
         "name": "SVM (RBF)",
         "key": "svm",
+        "step": "svc",
         "color": "#e7298a",
         "estimator": SVC(kernel="rbf", probability=True, class_weight="balanced", random_state=RANDOM_STATE),
-        "param_grid": None,  # fixed params, no grid search
-        "fixed_params": {"clf__C": 100, "clf__gamma": 0.001},
+        "param_grid": {
+            "svc__C": [0.01, 0.1, 1, 10, 100],
+            "svc__gamma": ["scale", 0.001, 0.01, 0.1, 1],
+        },
     },
 ]
 
@@ -172,7 +178,7 @@ def bootstrap_auc_ci(y_true, y_prob, n_bootstraps, random_state):
     }
 
 
-def repeated_cv(X, y, mc, best_params, n_splits, n_repeats, random_state):
+def repeated_cv(X, y, mc, best_params, n_splits, n_repeats, random_state, step_name="clf"):
     rskf = RepeatedStratifiedKFold(
         n_splits=n_splits, n_repeats=n_repeats, random_state=random_state,
     )
@@ -187,7 +193,7 @@ def repeated_cv(X, y, mc, best_params, n_splits, n_repeats, random_state):
         pipe = Pipeline([
             ("imputer", SimpleImputer(strategy="median")),
             ("scaler", StandardScaler()),
-            ("clf", mc["estimator"]),
+            (step_name, mc["estimator"]),
         ])
         pipe.set_params(**best_params)
         pipe.fit(X_tr, y_tr)
@@ -239,17 +245,19 @@ def main():
         for mc in MODEL_CONFIGS:
             print(f"\n  --- {mc['name']} ---")
 
+            step_name = mc.get("step", "clf")
             pipeline = Pipeline([
                 ("imputer", SimpleImputer(strategy="median")),
                 ("scaler", StandardScaler()),
-                ("clf", mc["estimator"]),
+                (step_name, mc["estimator"]),
             ])
 
             if mc["param_grid"] is not None:
+                gs_cv = StratifiedKFold(5, shuffle=True, random_state=RANDOM_STATE)
                 gs = GridSearchCV(
                     pipeline, mc["param_grid"],
                     scoring="roc_auc",
-                    cv=StratifiedKFold(5, shuffle=True, random_state=RANDOM_STATE),
+                    cv=gs_cv,
                     n_jobs=-1, verbose=0,
                 )
                 gs.fit(X_tr[fs_key], y_tr[fs_key])
@@ -278,6 +286,7 @@ def main():
                 pd.concat([y_tr[fs_key], y_te[fs_key]]),
                 mc, best_params,
                 N_SPLITS, N_REPEATS, RANDOM_STATE,
+                step_name=step_name,
             )
             cv_roc = cv_summary["roc_auc"]
             print(f"    CV ROC-AUC: {cv_roc['mean']:.4f} +- {cv_roc['std']:.4f}")
@@ -332,11 +341,13 @@ def main():
         for mc in MODEL_CONFIGS:
             print(f"    {mc['name']} / {fs_key} ...")
             bp = stored_best_params.get((fs_key, mc["key"]), {})
+            step_name = mc.get("step", "clf")
             _, cv_df = repeated_cv(
                 pd.concat([X_tr[fs_key], X_te[fs_key]]),
                 pd.concat([y_tr[fs_key], y_te[fs_key]]),
                 mc, bp,
                 N_SPLITS, N_REPEATS, RANDOM_STATE,
+                step_name=step_name,
             )
             cv_df["feature_set"] = FEATURE_SETS[fs_key]["name"]
             cv_df["model"] = mc["name"]
