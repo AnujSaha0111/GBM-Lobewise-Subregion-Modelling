@@ -1,0 +1,382 @@
+{
+  "stratified_models": [
+    {
+      "model": "Clinical (standard)",
+      "type": "standard",
+      "strata": [],
+      "n_covariates": 5,
+      "cindex": 0.7438004657211117,
+      "log_likelihood": -1237.20299056029,
+      "aic": 2484.40598112058,
+      "ibs": NaN
+    },
+    {
+      "model": "Clinical (stratified)",
+      "type": "stratified",
+      "strata": [
+        "who_grade",
+        "eor",
+        "idh"
+      ],
+      "n_covariates": 3,
+      "cindex": 0.7122886866059818,
+      "log_likelihood": -915.0090078862567,
+      "aic": 1836.0180157725133,
+      "ibs": NaN,
+      "cindex_ci_lower": 0.6777870918153636,
+      "cindex_ci_upper": 0.7458310242795664
+    },
+    {
+      "model": "Spatial (standard)",
+      "type": "standard",
+      "strata": [],
+      "n_covariates": 16,
+      "cindex": 0.6455529682160462,
+      "log_likelihood": -1305.8306471841463,
+      "aic": 2643.6612943682926,
+      "ibs": NaN
+    },
+    {
+      "model": "Spatial (stratified)",
+      "type": "stratified",
+      "strata": [
+        "eor",
+        "who_grade",
+        "idh"
+      ],
+      "n_covariates": 16,
+      "cindex": 0.5844195119000817,
+      "log_likelihood": -925.3037664164398,
+      "aic": 1882.6075328328795,
+      "ibs": NaN,
+      "cindex_ci_lower": 0.5304426149274702,
+      "cindex_ci_upper": 0.662843317904259
+    },
+    {
+      "model": "Combined (standard)",
+      "type": "standard",
+      "strata": [],
+      "n_covariates": 21,
+      "cindex": 0.7519883872138385,
+      "log_likelihood": -1281.3806188356987,
+      "aic": 2604.7612376713973,
+      "ibs": NaN
+    },
+    {
+      "model": "Combined (stratified)",
+      "type": "stratified",
+      "strata": [
+        "who_grade",
+        "eor",
+        "idh"
+      ],
+      "n_covariates": 19,
+      "cindex": 0.7101037287930565,
+      "log_likelihood": -914.325324465853,
+      "aic": 1866.650648931706,
+      "ibs": NaN,
+      "cindex_ci_lower": 0.6636032017967627,
+      "cindex_ci_upper": 0.7540046563242384
+    }
+  ],
+  "time_varying_models": [
+    {
+      "model": "Clinical (time-varying)",
+      "type": "time_varying",
+      "cindex": 0.9685184625154989,
+      "log_likelihood": -904.2350577635083,
+      "aic": 1824.4701155270166,
+      "n_covariates": 8,
+      "violating_vars": [
+        "eor",
+        "age",
+        "idh"
+      ],
+      "time_varying_coefs": {
+        "eor": {
+          "interaction_coef": -0.4955785315682525,
+          "interaction_hr": 0.6092183532749987,
+          "interaction_p": 1.3340701147171441e-08
+        },
+        "age": {
+          "interaction_coef": -0.06277903486936155,
+          "interaction_hr": 0.9391509703803815,
+          "interaction_p": 7.297595937694901e-63
+        },
+        "idh": {
+          "interaction_coef": -0.7231854038100922,
+          "interaction_hr": 0.4852042203375175,
+          "interaction_p": 0.00058364870007728
+        }
+      }
+    },
+    {
+      "model": "Clinical (standard)",
+      "type": "standard",
+      "cindex": 0.7438004657211117,
+      "log_likelihood": -1237.20299056029,
+      "aic": 2484.40598112058,
+      "n_covariates": 5,
+      "violating_vars": [],
+      "time_varying_coefs": {}
+    },
+    {
+      "model": "Spatial (time-varying)",
+      "type": "time_varying",
+      "cindex": 0.8944264674751262,
+      "log_likelihood": -1149.9403496423665,
+      "aic": 2351.880699284733,
+      "n_covariates": 26,
+      "violating_vars": [
+        "tumor_burden_index",
+        "frontal_nc_ratio",
+        "temporal_ed_ratio",
+        "parietal_ed_ratio",
+        "temporal_en_ratio",
+        "occipital_en_ratio",
+        "frontal_ed_ratio",
+        "frontal_en_ratio",
+        "parietal_nc_ratio",
+        "occipital_ed_ratio"
+      ],
+      "time_varying_coefs": {
+        "tumor_burden_index": {
+          "interaction_coef": -11.477387802252961,
+          "interaction_hr": 1.0361766726222357e-05,
+          "interaction_p": 0.00010924078393047403
+        },
+        "frontal_nc_ratio": {
+          "interaction_coef": -6.0042911858190875,
+          "interaction_hr": 0.0024681381800800498,
+          "interaction_p": 0.2384133966619377
+        },
+        "temporal_ed_ratio": {
+          "interaction_coef": -3.491125345781732,
+          "interaction_hr": 0.030466567449337793,
+          "interaction_p": 0.013329373706177657
+        },
+        "parietal_ed_ratio": {
+          "interaction_coef": -3.3375821568149124,
+          "interaction_hr": 0.035522742393477,
+          "interaction_p": 0.01078394133196993
+        },
+        "temporal_en_ratio": {
+          "interaction_coef": -6.166614356155675,
+          "interaction_hr": 0.002098328179829347,
+          "interaction_p": 0.07494427669556666
+        },
+        "occipital_en_ratio": {
+          "interaction_coef": 0.07383773873574803,
+          "interaction_hr": 1.0766320956373097,
+          "interaction_p": 0.986992877375606
+        },
+        "frontal_ed_ratio": {
+          "interaction_coef": -4.782875171290762,
+          "interaction_hr": 0.008371893702291838,
+          "interaction_p": 0.003439122266129939
+        },
+        "frontal_en_ratio": {
+          "interaction_coef": -9.942643261621916,
+          "interaction_hr": 4.8080048374053075e-05,
+          "interaction_p": 0.04162019315331765
+        },
+        "parietal_nc_ratio": {
+          "interaction_coef": -8.500492576113544,
+          "interaction_hr": 0.00020336817003204546,
+          "interaction_p": 0.1039051783344648
+        },
+        "occipital_ed_ratio": {
+          "interaction_coef": -1.6727890309351585,
+          "interaction_hr": 0.18772277022714962,
+          "interaction_p": 0.5448660205696634
+        }
+      }
+    },
+    {
+      "model": "Spatial (standard)",
+      "type": "standard",
+      "cindex": 0.6455529682160462,
+      "log_likelihood": -1305.8306471841463,
+      "aic": 2643.6612943682926,
+      "n_covariates": 16,
+      "violating_vars": [],
+      "time_varying_coefs": {}
+    },
+    {
+      "model": "Combined (time-varying)",
+      "type": "time_varying",
+      "cindex": 0.971663592100886,
+      "log_likelihood": -879.3840494579335,
+      "aic": 1826.768098915867,
+      "n_covariates": 34,
+      "violating_vars": [
+        "tumor_burden_index",
+        "eor",
+        "frontal_nc_ratio",
+        "temporal_ed_ratio",
+        "parietal_ed_ratio",
+        "temporal_en_ratio",
+        "occipital_en_ratio",
+        "frontal_ed_ratio",
+        "frontal_en_ratio",
+        "age",
+        "parietal_nc_ratio",
+        "occipital_ed_ratio",
+        "idh"
+      ],
+      "time_varying_coefs": {
+        "tumor_burden_index": {
+          "interaction_coef": -4.929855573032569,
+          "interaction_hr": 0.007227547058703504,
+          "interaction_p": 0.10043214909257626
+        },
+        "eor": {
+          "interaction_coef": -0.49453426283860125,
+          "interaction_hr": 0.6098548732419585,
+          "interaction_p": 8.506979110951755e-08
+        },
+        "frontal_nc_ratio": {
+          "interaction_coef": -4.1546068896721176,
+          "interaction_hr": 0.01569195858828154,
+          "interaction_p": 0.42127954232595255
+        },
+        "temporal_ed_ratio": {
+          "interaction_coef": -2.8086453529556175,
+          "interaction_hr": 0.06028660417247303,
+          "interaction_p": 0.06536831074426883
+        },
+        "parietal_ed_ratio": {
+          "interaction_coef": -4.065863012394632,
+          "interaction_hr": 0.017148183790707143,
+          "interaction_p": 0.004555405753329317
+        },
+        "temporal_en_ratio": {
+          "interaction_coef": 0.2513217786235419,
+          "interaction_hr": 1.2857237361895495,
+          "interaction_p": 0.9457846026436426
+        },
+        "occipital_en_ratio": {
+          "interaction_coef": 4.758316889491665,
+          "interaction_hr": 116.54959487405782,
+          "interaction_p": 0.31258057244064974
+        },
+        "frontal_ed_ratio": {
+          "interaction_coef": -0.2720290577233754,
+          "interaction_hr": 0.7618321236610996,
+          "interaction_p": 0.8719992798945662
+        },
+        "frontal_en_ratio": {
+          "interaction_coef": -3.1366040768097,
+          "interaction_hr": 0.04343003281683683,
+          "interaction_p": 0.5457666423136561
+        },
+        "age": {
+          "interaction_coef": -0.06066899611558713,
+          "interaction_hr": 0.9411347074685857,
+          "interaction_p": 1.296659669397922e-53
+        },
+        "parietal_nc_ratio": {
+          "interaction_coef": -5.993626860912453,
+          "interaction_hr": 0.0024946000557797858,
+          "interaction_p": 0.2681654274694548
+        },
+        "occipital_ed_ratio": {
+          "interaction_coef": 4.154805672636282,
+          "interaction_hr": 63.73957700026923,
+          "interaction_p": 0.10850888971332243
+        },
+        "idh": {
+          "interaction_coef": -0.7596690099503252,
+          "interaction_hr": 0.46782124556410354,
+          "interaction_p": 0.00032082021447201776
+        }
+      }
+    },
+    {
+      "model": "Combined (standard)",
+      "type": "standard",
+      "cindex": 0.7519883872138385,
+      "log_likelihood": -1281.3806188356987,
+      "aic": 2604.7612376713973,
+      "n_covariates": 21,
+      "violating_vars": [],
+      "time_varying_coefs": {}
+    }
+  ],
+  "rmst_results": [
+    {
+      "model": "Clinical",
+      "tau": 43.57782340862423,
+      "rmst_high_risk": 15.92780887626142,
+      "rmst_high_ci_lower": 13.925471248101497,
+      "rmst_high_ci_upper": 17.484030724577146,
+      "rmst_low_risk": 32.041406433611485,
+      "rmst_low_ci_lower": 28.333022873557397,
+      "rmst_low_ci_upper": 33.702228074623164,
+      "rmst_difference": 16.113597557350065,
+      "rmst_diff_ci_lower": 11.907895695001919,
+      "rmst_diff_ci_upper": 18.59311363638979,
+      "p_value": 0.0,
+      "n_high_risk": 246,
+      "n_low_risk": 247
+    },
+    {
+      "model": "Spatial",
+      "tau": 43.57782340862423,
+      "rmst_high_risk": 19.956379677951347,
+      "rmst_high_ci_lower": 17.369857093346226,
+      "rmst_high_ci_upper": 21.816703560697185,
+      "rmst_low_risk": 28.730728598802376,
+      "rmst_low_ci_lower": 25.405092884135602,
+      "rmst_low_ci_upper": 30.66564954343835,
+      "rmst_difference": 8.774348920851029,
+      "rmst_diff_ci_lower": 4.930855905394656,
+      "rmst_diff_ci_upper": 12.148973869822106,
+      "p_value": 0.0,
+      "n_high_risk": 246,
+      "n_low_risk": 247
+    },
+    {
+      "model": "Combined",
+      "tau": 43.57782340862423,
+      "rmst_high_risk": 16.25474252494545,
+      "rmst_high_ci_lower": 14.292764158605129,
+      "rmst_high_ci_upper": 17.825388917994147,
+      "rmst_low_risk": 31.41821654760422,
+      "rmst_low_ci_lower": 27.47043584699426,
+      "rmst_low_ci_upper": 33.066865312104476,
+      "rmst_difference": 15.163474022658772,
+      "rmst_diff_ci_lower": 10.876342784961926,
+      "rmst_diff_ci_upper": 17.692813548452776,
+      "p_value": 0.0,
+      "n_high_risk": 246,
+      "n_low_risk": 247
+    }
+  ],
+  "schoenfeld_global": [
+    {
+      "model": "Clinical",
+      "chi2": 18.8240848056638,
+      "df": 5,
+      "p_value": 0.002072658389570282,
+      "n_covariates": 5,
+      "significant_at_005": true
+    },
+    {
+      "model": "Spatial",
+      "chi2": 51.40010842344766,
+      "df": 16,
+      "p_value": 1.3683938912942771e-05,
+      "n_covariates": 16,
+      "significant_at_005": true
+    },
+    {
+      "model": "Combined",
+      "chi2": 94.28872391249764,
+      "df": 21,
+      "p_value": 2.908784657291182e-11,
+      "n_covariates": 21,
+      "significant_at_005": true
+    }
+  ]
+}

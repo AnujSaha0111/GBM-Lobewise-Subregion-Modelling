@@ -1,0 +1,7 @@
+Model,Type,C-index,95% CI,Log-Likelihood,AIC,n_covariates
+Clinical (standard),standard,0.7438,N/A,-1237.20,2484.41,5
+Clinical (stratified),stratified,0.7123,"[0.6778, 0.7458]",-915.01,1836.02,3
+Spatial (standard),standard,0.6456,N/A,-1305.83,2643.66,16
+Spatial (stratified),stratified,0.5844,"[0.5304, 0.6628]",-925.30,1882.61,16
+Combined (standard),standard,0.7520,N/A,-1281.38,2604.76,21
+Combined (stratified),stratified,0.7101,"[0.6636, 0.7540]",-914.33,1866.65,19

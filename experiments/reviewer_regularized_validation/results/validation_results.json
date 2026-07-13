@@ -1,0 +1,229 @@
+{
+  "rfecv_summary": {
+    "roc_auc": {
+      "mean": 0.7208811262733037,
+      "std": 0.04486502029374914
+    },
+    "accuracy": {
+      "mean": 0.6708018965161822,
+      "std": 0.031231563654595864
+    },
+    "precision": {
+      "mean": 0.622475806326016,
+      "std": 0.04181543702668656
+    },
+    "recall": {
+      "mean": 0.6543868921775899,
+      "std": 0.06373674367285007
+    },
+    "f1_score": {
+      "mean": 0.6355943337862476,
+      "std": 0.034640509057030505
+    },
+    "n_selected": {
+      "mean": 3.8,
+      "std": 1.8844151368961315,
+      "min": 2,
+      "max": 10
+    },
+    "bootstrap_ci": {
+      "mean_auc": 0.7137127505576506,
+      "ci_lower": 0.6986182591330148,
+      "ci_upper": 0.7283438102069614,
+      "n_valid": 5000
+    }
+  },
+  "clinical_summary": {
+    "roc_auc": {
+      "mean": 0.7340451319293814,
+      "std": 0.04388777499513157
+    },
+    "accuracy": {
+      "mean": 0.6790847247990105,
+      "std": 0.03441812688634065
+    },
+    "precision": {
+      "mean": 0.6412704340602587,
+      "std": 0.049631668419505136
+    },
+    "recall": {
+      "mean": 0.6262473572938689,
+      "std": 0.0607971068224111
+    },
+    "f1_score": {
+      "mean": 0.6314017825444018,
+      "std": 0.04031789199679387
+    },
+    "n_selected": {
+      "mean": 6.0,
+      "std": 0.0,
+      "min": 6,
+      "max": 6
+    },
+    "bootstrap_ci": {
+      "mean_auc": 0.7282847393019195,
+      "ci_lower": 0.71359770083352,
+      "ci_upper": 0.7427252764383847,
+      "n_valid": 5000
+    }
+  },
+  "combined_summary": {
+    "roc_auc": {
+      "mean": 0.699966859778699,
+      "std": 0.050725736415250564
+    },
+    "accuracy": {
+      "mean": 0.6322964337250052,
+      "std": 0.04714105352004652
+    },
+    "precision": {
+      "mean": 0.5798113569828424,
+      "std": 0.05201766107413267
+    },
+    "recall": {
+      "mean": 0.61169133192389,
+      "std": 0.07459389118519724
+    },
+    "f1_score": {
+      "mean": 0.5932725348475174,
+      "std": 0.052989963031138884
+    },
+    "n_selected": {
+      "mean": 70.0,
+      "std": 0.0,
+      "min": 70,
+      "max": 70
+    },
+    "bootstrap_ci": {
+      "mean_auc": 0.6932942657820796,
+      "ci_lower": 0.678587726158096,
+      "ci_upper": 0.708182992125617,
+      "n_valid": 5000
+    }
+  },
+  "comparison_rfecv_vs_clinical": {
+    "delta_auc": -0.014571988744268781,
+    "ci_lower": -0.02458671030982744,
+    "ci_upper": -0.0048217268584233855,
+    "p_value": 0.0018,
+    "n_valid_bootstrap": 5000
+  },
+  "comparison_rfecv_vs_combined": {
+    "delta_auc": 0.020418484775570993,
+    "ci_lower": 0.007692633276592522,
+    "ci_upper": 0.032962132203577695,
+    "p_value": 0.0016,
+    "n_valid_bootstrap": 5000
+  },
+  "comparison_clinical_vs_combined": {
+    "delta_auc": 0.034990473519839776,
+    "ci_lower": 0.021182869455630752,
+    "ci_upper": 0.0486248580767453,
+    "p_value": 0.0,
+    "n_valid_bootstrap": 5000
+  },
+  "feature_frequency_top20": [
+    {
+      "feature": "age",
+      "count": 50,
+      "rate": 1.0
+    },
+    {
+      "feature": "eor",
+      "count": 50,
+      "rate": 1.0
+    },
+    {
+      "feature": "T1GD_frontal_en_ratio",
+      "count": 28,
+      "rate": 0.5599999999999999
+    },
+    {
+      "feature": "T1GD_temporal_en_ratio",
+      "count": 19,
+      "rate": 0.38
+    },
+    {
+      "feature": "who_grade",
+      "count": 18,
+      "rate": 0.36
+    },
+    {
+      "feature": "T1_temporal_nc_ratio",
+      "count": 5,
+      "rate": 0.1
+    },
+    {
+      "feature": "T1_temporal_ed_ratio",
+      "count": 3,
+      "rate": 0.06
+    },
+    {
+      "feature": "T2_global_ed_en_ratio",
+      "count": 2,
+      "rate": 0.04
+    },
+    {
+      "feature": "T1GD_global_nc_en_ratio",
+      "count": 2,
+      "rate": 0.04
+    },
+    {
+      "feature": "T1GD_global_ed_en_ratio",
+      "count": 2,
+      "rate": 0.04
+    },
+    {
+      "feature": "T1_global_ed_en_ratio",
+      "count": 2,
+      "rate": 0.04
+    },
+    {
+      "feature": "T2_frontal_en_ratio",
+      "count": 2,
+      "rate": 0.04
+    },
+    {
+      "feature": "sex",
+      "count": 1,
+      "rate": 0.02
+    },
+    {
+      "feature": "T1_frontal_en_ratio",
+      "count": 1,
+      "rate": 0.02
+    },
+    {
+      "feature": "T1GD_frontal_nc_ratio",
+      "count": 1,
+      "rate": 0.02
+    },
+    {
+      "feature": "FLAIR_parietal_nc_ratio",
+      "count": 1,
+      "rate": 0.02
+    },
+    {
+      "feature": "FLAIR_frontal_en_ratio",
+      "count": 1,
+      "rate": 0.02
+    },
+    {
+      "feature": "T1GD_temporal_ed_ratio",
+      "count": 1,
+      "rate": 0.02
+    },
+    {
+      "feature": "T2_temporal_en_ratio",
+      "count": 1,
+      "rate": 0.02
+    }
+  ],
+  "feature_count_stats": {
+    "mean": 3.8,
+    "std": 1.8844151368961315,
+    "min": 2,
+    "max": 10,
+    "median": 4.0
+  }
+}
