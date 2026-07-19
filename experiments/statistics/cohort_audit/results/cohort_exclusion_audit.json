@@ -1,0 +1,108 @@
+{
+  "stage_1_original_cohort": {
+    "source": "UCSF-PDGM-metadata_v5.csv",
+    "n_patients": 501
+  },
+  "stage_2_post_atlas_registration": {
+    "modality_patient_counts": {
+      "T1": 499,
+      "T1GD": 499,
+      "T2": 499,
+      "FLAIR": 499
+    },
+    "all_modalities_consistent": true,
+    "n_patients": 499,
+    "n_lost_from_original": 2
+  },
+  "stage_2_patients_lost": [
+    "UCSF-PDGM-0358",
+    "UCSF-PDGM-0395"
+  ],
+  "stage_3_preprocessing_filters": {
+    "input_n_patients": 499,
+    "filter_unreliable_lobe": {
+      "description": "lobe_assignment_reliable == False (atlas coverage < 90%)",
+      "n_excluded": 5,
+      "patient_ids": [
+        "UCSF-PDGM-0066",
+        "UCSF-PDGM-0274",
+        "UCSF-PDGM-0378",
+        "UCSF-PDGM-0477",
+        "UCSF-PDGM-0500"
+      ]
+    },
+    "filter_missing_os": {
+      "description": "OS_months is NaN (missing or non-numeric survival)",
+      "n_excluded": 1,
+      "patient_ids": [
+        "UCSF-PDGM-0169"
+      ]
+    },
+    "filter_nonpositive_os": {
+      "description": "OS_months <= 0 (non-positive survival)",
+      "n_excluded": 0,
+      "patient_ids": []
+    },
+    "overlap_unreliable_and_missing_os": {
+      "description": "Patients excluded for BOTH unreliable lobe AND missing OS",
+      "n_overlap": 0,
+      "patient_ids": []
+    },
+    "unique_exclusions_combined": {
+      "n_excluded": 6,
+      "n_unreliable_only": 5,
+      "n_missing_os_only": 1,
+      "n_nonpositive_only": 0,
+      "n_both_unreliable_and_missing_os": 0
+    }
+  },
+  "stage_4_final_cohort": {
+    "source": "outputs\\features_processed.csv",
+    "n_patients": 493,
+    "has_risk_label": true,
+    "has_patient_id": false,
+    "has_lobe_assignment_reliable": false
+  },
+  "balance_verification": {
+    "n_original": 501,
+    "n_post_atlas": 499,
+    "n_lost_atlas_discovery": 2,
+    "n_excluded_unreliable": 5,
+    "n_excluded_missing_os": 1,
+    "n_excluded_nonpositive_os": 0,
+    "n_total_excluded_unique": 6,
+    "n_final_features_processed": 493,
+    "balance_check_raw_minus_unique_exclusions": {
+      "expected_final": 493,
+      "actual_final": 493,
+      "balanced": true
+    },
+    "balance_check_raw_minus_code_filters": {
+      "description": "preprocessing.py filters unreliable + missing OS (NOT non-positive)",
+      "n_excluded_by_code": 6,
+      "expected_final": 493,
+      "actual_final": 493,
+      "balanced": true
+    }
+  },
+  "os_months_distribution": {
+    "n_valid_os": 498,
+    "min": 0.1971252566735113,
+    "max": 137.23203285420945,
+    "mean": 18.896118354320773,
+    "median": 13.831622176591376,
+    "n_nonpositive": 0,
+    "n_zero": 0,
+    "n_negative": 0
+  },
+  "multimodal_pipeline_crosscheck": {
+    "source": "outputs\\multimodal_lobewise\\merged_features_with_metadata.csv",
+    "n_patients": 493,
+    "matches_features_processed": true
+  },
+  "radiogenomic_analysis_crosscheck": {
+    "n_before_reliable_filter": 499,
+    "n_after_reliable_filter": 494,
+    "description": "Radiogenomic analysis loads all 4 modalities, inner-joins on patient_id, then filters on lobe_assignment_reliable only (NOT on OS_months)."
+  }
+}

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Reviewer Experiment: Regularized Feature Selection for Combined Model
+"""Regularized Feature Selection for Combined Model
 
-Addresses Reviewer Comment #2. Tests whether feature selection / regularization
+Tests whether feature selection / regularization
 resolves the combined model's performance degradation.
 
 Models:
@@ -53,7 +53,7 @@ from sklearn.svm import SVC
 
 warnings.filterwarnings("ignore")
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 INPUT_CSV = ROOT / "outputs" / "multimodal_lobewise" / "merged_features_with_metadata.csv"
 OUTPUT_DIR = Path(__file__).resolve().parent / "results"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -314,7 +314,7 @@ def run_model(name, build_fn, param_grid, X_tr, y_tr, X_te, y_te,
 
 def main():
     log("=" * 60)
-    log("  REVIEWER EXPERIMENT: REGULARIZED COMBINED MODEL")
+    log("  REGULARIZED FEATURE SELECTION EXPERIMENT")
     log("=" * 60)
 
     X_tr, X_te, y_tr, y_te, combined_cols, spatial_cols, meta_cols = load_data()
@@ -505,10 +505,10 @@ def main():
     clin_auc = results["clinical"]["metrics"]["roc_auc"]
     bas_auc = results["baseline"]["metrics"]["roc_auc"]
 
-    report = f"""# Reviewer Experiment: Regularized Combined Model
+    report = f"""# Regularized Combined Model
 
 ## Objective
-Address Reviewer Comment #2: combined model (70 features, AUC=0.703) underperforms
+Combined model (70 features, AUC=0.703) underperforms
 clinical-only (6 features, AUC=0.772). Test whether feature selection / regularization resolves this.
 
 ## Protocol

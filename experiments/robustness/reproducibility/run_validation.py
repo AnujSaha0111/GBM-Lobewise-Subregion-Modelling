@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Reviewer Validation: Nested Repeated CV for RFECV Combined Model
+"""Nested Repeated CV Validation for RFECV Combined Model
 
 Validates whether the RFECV improvement (AUC 0.799 vs clinical 0.772) from the
 previous experiment is genuine or a train/test split artifact.
@@ -55,7 +55,7 @@ from sklearn.svm import SVC
 warnings.filterwarnings("ignore")
 
 # ── Paths ──────────────────────────────────────────────────────────────
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 INPUT_CSV = ROOT / "outputs" / "multimodal_lobewise" / "merged_features_with_metadata.csv"
 OUTPUT_DIR = Path(__file__).resolve().parent / "results"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -280,7 +280,7 @@ def paired_bootstrap_difference(y_true_a, proba_a, y_true_c, proba_c, n_boot=N_B
 
 def main():
     log("=" * 65)
-    log("  REVIEWER VALIDATION: Nested Repeated CV for RFECV Combined Model")
+    log("  NESTED REPEATED CV VALIDATION FOR RFECV COMBINED MODEL")
     log("=" * 65)
 
     X, y, combined_cols, spatial_cols, meta_cols = load_data()
@@ -583,7 +583,7 @@ def main():
             "train/test split artifact."
         )
 
-    report = f"""# Reviewer Validation: Nested Repeated CV for RFECV Combined Model
+    report = f"""# Nested Repeated CV Validation for RFECV Combined Model
 
 ## Objective
 

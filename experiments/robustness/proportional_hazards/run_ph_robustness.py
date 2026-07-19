@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-"""Reviewer PH Robustness: Assess whether proportional hazards violations
+"""Proportional Hazards Robustness Assessment
+
+Assess whether proportional hazards violations
 materially affect the manuscript's survival analysis conclusions.
 
 Parts:
@@ -30,7 +32,7 @@ from scipy.stats import chi2
 warnings.filterwarnings("ignore")
 
 # ── Paths ──────────────────────────────────────────────────────────────
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 OUTPUT_DIR = Path(__file__).resolve().parent / "results"
 PLOTS_DIR = OUTPUT_DIR / "schoenfeld_plots"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -845,8 +847,8 @@ def part_e_summary(global_rows, var_rows, stratified_models, tv_results, rmst_re
     (OUTPUT_DIR / "comparison_table.json").write_text(
         json.dumps(json_data, indent=2, default=str), encoding="utf-8")
 
-    # ── Answers to reviewer questions ──
-    log("\n  ANSWERS TO REVIEWER:")
+    # ── Key assessment questions ──
+    log("\n  KEY ASSESSMENT FINDINGS:")
 
     # Q1: Does the clinical model remain the strongest?
     clin_cindex_strat = clin_strat[0]["cindex"] if clin_strat else np.nan
@@ -878,8 +880,8 @@ def part_e_summary(global_rows, var_rows, stratified_models, tv_results, rmst_re
 
 ## Objective
 
-Address Reviewer Comment #6 regarding proportional hazards (PH) assumption violations.
-Assess whether the manuscript's survival analysis conclusions remain valid.
+Assess whether proportional hazards (PH) assumption violations affect
+the manuscript's survival analysis conclusions.
 
 ## Part A: Schoenfeld Tests
 
@@ -1020,7 +1022,7 @@ The original Cox analysis remains acceptable. Minor wording additions:
 
 def main():
     log("=" * 60)
-    log("  REVIEWER PH ROBUSTNESS EXPERIMENT")
+    log("  PH ROBUSTNESS ASSESSMENT")
     log("=" * 60)
 
     # Load data

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Reviewer Ablation: Spatial Feature Representation Study
+"""Spatial Feature Representation Ablation Study
 
 Evaluates whether the 64-dimensional spatial representation is necessary
 or whether a reduced representation achieves comparable performance.
@@ -41,7 +41,7 @@ from sklearn.svm import SVC
 
 warnings.filterwarnings("ignore")
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 INPUT_CSV = ROOT / "outputs" / "multimodal_lobewise" / "merged_features_with_metadata.csv"
 OUTPUT_DIR = Path(__file__).resolve().parent / "results"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -216,7 +216,7 @@ def train_and_evaluate(X_tr, y_tr, X_te, y_te, X_full, y_full, model_name, n_fea
 
 def main():
     log("=" * 60)
-    log("  REVIEWER ABLATION: Spatial Feature Representation Study")
+    log("  SPATIAL FEATURE REPRESENTATION ABLATION STUDY")
     log("=" * 60)
 
     df, y, spatial_cols = load_and_split()
@@ -388,7 +388,7 @@ a reduced representation achieves comparable performance.
    - Within 0.01 AUC of full model
    - Uses {optimal['n_features']/64*100:.0f}% of the features
 
-## Answers to Reviewer
+## Key Questions
 
 ### Q1: Is 64-dimensional spatial representation necessary?
 
@@ -438,7 +438,7 @@ across modalities and sub-regions. A reduced set focusing on the most
 discriminative spatial quantities (tumour burden, enhancement ratios)
 achieves comparable classification performance.
 
-This supports the reviewer's suggestion that the effective dimensionality
+This supports the hypothesis that the effective dimensionality
 of the spatial representation is lower than 64.
 
 ---

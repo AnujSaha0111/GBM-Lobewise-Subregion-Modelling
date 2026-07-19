@@ -1,0 +1,98 @@
+{
+  "experiment": "mgmt_multivariable_logistic_auc_ci",
+  "description": "Bootstrap 95% confidence interval for the multivariable logistic regression cross-validated AUC for MGMT promoter methylation prediction from spatial occupancy features.",
+  "methodology": {
+    "data_source": "UCSF-PDGM (n=493 after lobe-reliability filter)",
+    "outcome": "MGMT promoter methylation (binary: methylated vs unmethylated)",
+    "n_patients_total": 494,
+    "n_patients_mgmt_known": 413,
+    "n_positive": 300,
+    "n_negative": 113,
+    "feature_selection": "Top 8 spatial features by Mann-Whitney U test with Benjamini-Hochberg FDR correction",
+    "preprocessing": "StandardScaler (fit within each CV fold)",
+    "classifier": "LogisticRegression(L2, C=1.0, max_iter=1000)",
+    "cross_validation": "StratifiedKFold(5, shuffle=True, random_state=42)",
+    "bootstrap_iterations": 1000,
+    "bootstrap_method": "Patient-level resampling with replacement; full pipeline (feature selection + scaling + 5-fold CV) re-run per replicate",
+    "random_seed": 42,
+    "pipeline_replication": "Exact replica of src/radiogenomic_analysis.py (load_radiogenomic_data, select_top_features, fit_logistic_regression CV step)"
+  },
+  "selected_features": [
+    "T1_global_nc_en_ratio",
+    "T1GD_global_nc_en_ratio",
+    "FLAIR_global_nc_en_ratio",
+    "T1_global_ed_total_ratio",
+    "T1_frontal_ed_ratio",
+    "T1_frontal_en_ratio",
+    "T1_frontal_nc_ratio",
+    "T1_global_ed_en_ratio"
+  ],
+  "base_model": {
+    "point_estimate_auc": 0.38976401179941006,
+    "cv_folds": 5,
+    "cv_repeats": 1,
+    "odds_ratios": [
+      {
+        "feature": "T1_global_nc_en_ratio",
+        "coefficient": 0.06941871690343769,
+        "odds_ratio": 1.0718849315373404
+      },
+      {
+        "feature": "T1GD_global_nc_en_ratio",
+        "coefficient": 0.06941871690343769,
+        "odds_ratio": 1.0718849315373404
+      },
+      {
+        "feature": "FLAIR_global_nc_en_ratio",
+        "coefficient": 0.06941871690343769,
+        "odds_ratio": 1.0718849315373404
+      },
+      {
+        "feature": "T1_global_ed_total_ratio",
+        "coefficient": 0.06060217556420984,
+        "odds_ratio": 1.062476151124671
+      },
+      {
+        "feature": "T1_frontal_ed_ratio",
+        "coefficient": -0.0863331902500907,
+        "odds_ratio": 0.9172885486968151
+      },
+      {
+        "feature": "T1_frontal_en_ratio",
+        "coefficient": 0.0929821364242437,
+        "odds_ratio": 1.0974421308523374
+      },
+      {
+        "feature": "T1_frontal_nc_ratio",
+        "coefficient": 0.018121309181483438,
+        "odds_ratio": 1.0182864963989804
+      },
+      {
+        "feature": "T1_global_ed_en_ratio",
+        "coefficient": -0.10051950130050401,
+        "odds_ratio": 0.90436747589889
+      }
+    ],
+    "intercept": 0.9839619110964902
+  },
+  "bootstrap_ci": {
+    "point_estimate_auc": 0.38976401179941006,
+    "ci_lower_95": 0.4430505010467807,
+    "ci_upper_95": 0.6131708379158356,
+    "n_bootstrap_total": 1000,
+    "n_bootstrap_valid": 1000,
+    "n_bootstrap_rejected": 0,
+    "mean_bootstrap_auc": 0.540859321850052,
+    "std_bootstrap_auc": 0.04203114257306063
+  },
+  "chance_level_test": {
+    "chance_auc": 0.5,
+    "ci_contains_chance": true,
+    "ci_lower": 0.4430505010467807,
+    "ci_upper": 0.6131708379158356
+  },
+  "interpretation": {
+    "no_meaningful_discrimination": true,
+    "conclusion": "The 95% bootstrap CI [0.4431, 0.6132] includes 0.5 (chance level). This supports the statement that the multivariable logistic model shows no meaningful discriminative ability for MGMT prediction from spatial features."
+  }
+}
